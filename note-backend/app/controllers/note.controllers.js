@@ -14,6 +14,8 @@ module.exports = {
 
     store: async(req,res) => {
 
+        req.body.createdAt = new Date();
+
         let note = new Note(req.body);
 
         await note.save();
@@ -35,6 +37,8 @@ module.exports = {
     },
 
     update: async(req,res) => {
+
+        req.body.updatedAt = new Date();
 
         const id = req.params.id;
 
