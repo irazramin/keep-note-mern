@@ -5,7 +5,7 @@ import Home from "./components/pages/Home/Home";
 
 function App() {
   return (
-    <div className='bg-gray-200 min-h-screen' >
+    <div className='min-h-screen' >
       <Navbar />
       <Home />
     </div>

@@ -1,11 +1,10 @@
 import React, {useRef, useState} from 'react';
 
-const SearchOption = () => {
+const SearchOption = ({ setControlRender,controlRender }) => {
     const [collapseCard, setCollapseCard] = useState(false);
     const [title,setTitle] = useState('');
     const [desc,setDesc] = useState('');
     const titleRef = useRef(null);
-
 
     const handleCardCollapse = () => {
         setCollapseCard(true);
@@ -27,13 +26,14 @@ const SearchOption = () => {
                 console.log(data)
             });
 
+        setControlRender(!controlRender)
     }
     return (
         <div>
             {
                 !collapseCard ?
-                    <div onClick={handleCardCollapse} className="card card-side p-3 bg-base-100 shadow-md w-[40%] mx-auto">
-                        <p className='font-semibold'>Take a note.....</p>
+                    <div onClick={handleCardCollapse} className="card card-side rounded py-3 px-5 bg-base-100 shadow-md w-[40%] mx-auto">
+                        <p className='font-semibold text-base'>Take a note.....</p>
                     </div>
                     :
                     <div className="card   bg-base-100 shadow-md w-[40%] mx-auto">
