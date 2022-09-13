@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-const Navbar = () => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
+const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
   return (
-    <div className="bg-white p-3 border-b ">
+    <div className="bg-white p-3 border-b sticky top-0 left-0 z-50">
       <div className="container mx-auto">
         <div className="flex items-center gap-10">
           <div>Keep Note</div>
@@ -32,6 +32,9 @@ const Navbar = () => {
               </button>
             </div>
           </div>
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="absolute top-3 left-5 w-[45px] h-[45px]  rounded-full focus:bg-stone-200">
+            <FontAwesomeIcon icon={faBars} />
+          </button>
         </div>
       </div>
     </div>

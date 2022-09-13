@@ -1,11 +1,25 @@
 .sidebar { 
-    width: 50px;
+    width: 80px;
     height: 100vh;
     transition: width .2s ease-out;
     position: fixed;
   }
   
+
+  /* .sidebar-open .sidebar-title{
+    display: block;
+  } */
+
+ .sidebar-open  {
+    width: 220px;
+    /* box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1); */
+    height: 100vh;
+    position: fixed;
+    
+  }
+
   .sidebar:hover {
+    background-color: white;
     width: 220px;
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1);
     
@@ -16,7 +30,5 @@
    }
   
  .sidebar .sidebar-title { 
-
     display: none;
-
  }

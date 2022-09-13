@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SearchOption from "../SearchOption";
 import Note from "./Note";
 
 const Notes = ({ controlRender }) => {
@@ -26,8 +27,16 @@ const Notes = ({ controlRender }) => {
 
   return (
     <div className="container mx-auto mt-10">
+      
+      <div className="mb-5">
+      <SearchOption
+          // setControlRender={setControlRender}
+          // controlRender={controlRender}
+        />
+      </div>
+        
       {notes.length > 0 ? (
-        <div className="grid grid-cols-6 gap-x-10 gap-y-7">
+        <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-x-10 gap-y-7">
           {notes.map((note) => (
             <Note
               note={note}
