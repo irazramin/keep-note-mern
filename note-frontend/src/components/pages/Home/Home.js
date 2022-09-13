@@ -5,7 +5,6 @@ import { Outlet } from "react-router";
 import Dashboard from "./Dashboard/Dashboard";
 
 const Home = ({ sidebarOpen }) => {
-  const [controlRender, setControlRender] = useState(false);
   return (
     <>
       <div className=" mx-auto">

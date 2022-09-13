@@ -14,7 +14,7 @@ const Dashboard = ({ sidebarOpen }) => {
       <ul className="icons w-full flex flex-col justify-center">
         <li className=" ">
           <div className="py-3">
-            <Link to="note">
+            <Link to="">
               <div className="flex items-center">
                 {" "}
                 <span className="mr-5">
@@ -32,7 +32,7 @@ const Dashboard = ({ sidebarOpen }) => {
           </div>
         </li>
         <li className="">
-          <div>
+          <div className="py-3">
             <Link to="archrive">
               <div className="flex items-center">
                 {/* <img className="w-[35px] h-[35px]" src={logo} alt="" /> */}

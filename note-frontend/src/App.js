@@ -15,7 +15,7 @@ function App() {
       <Navbar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen}/>
       <Routes>
         <Route path="/" element={<Home sidebarOpen={sidebarOpen} />}>
-          <Route path="note" element={<Notes />} />
+          <Route path="" element={<Notes />} index />
           <Route path="archrive" element={<Archrive />} />
           <Route path="trash" element={<Trash />} />
         </Route>
