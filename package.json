@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0"
+  }
+}

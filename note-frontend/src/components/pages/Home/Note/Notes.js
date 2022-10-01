@@ -5,26 +5,20 @@ import Note from "./Note";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
-  const [singleNote, setSingleNote] = useState({});
-  const [showModal, setShowModal] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState('');
   const [controlRender, setControlRender] = useState(false);
 
   useEffect(() => {
+    getNotes();
+  }, [controlRender]);
+
+  const getNotes = () => {
     fetch(`http://localhost:4000/api/v1/note`)
       .then((res) => res.json())
       .then((data) => {
         setNotes(data);
       });
-  }, [controlRender]);
-
-  const showNotes = (id) => {
-    setShowModal(true);
-    fetch(`http://localhost:4000/api/v1/note/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSingleNote(data);
-      });
-  };
+  }
 
   return (
     <div className="container mx-auto mt-10">
@@ -36,15 +30,15 @@ const Notes = () => {
       </div>
 
       {notes.length > 0 ? (
-        <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-x-10 gap-y-7">
+        <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-x-10 gap-y-7 flex-wrap">
           {notes.map((note) => (
-            <Note
-              note={note}
-              key={note._id}
-              showModal={showModal}
-              showNotes={showNotes}
-              singleNote={singleNote}
-            />
+            <>
+              <Note
+                note={note}
+                key={note._id}
+                onClick={(id) => setSelectedNoteId(id)}
+              />
+            </>
           ))}
         </div>
       ) : (
@@ -52,7 +46,7 @@ const Notes = () => {
           <h2>No notes found!</h2>
         </div>
       )}
-       <NoteModal singleNote={singleNote}  />
+      <NoteModal selectedNoteId={selectedNoteId} onSubmit={(value) => value ? getNotes() : ''} />
     </div>
   );
 };

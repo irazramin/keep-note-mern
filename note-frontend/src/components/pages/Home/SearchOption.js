@@ -31,12 +31,12 @@ const SearchOption = ({ setControlRender, controlRender }) => {
       {!collapseCard ? (
         <div
           onClick={handleCardCollapse}
-          className="card card-side rounded py-3 px-5 bg-base-100 shadow-md w-[40%] mx-auto"
+          className="card card-side rounded py-3 px-5 bg-base-100 shadow-md lg:w-[40%] w-[80%] mx-auto"
         >
           <p className="font-semibold text-base">Take a note.....</p>
         </div>
       ) : (
-        <div className="card   bg-base-100 shadow-md w-[40%] mx-auto">
+        <div className="card   bg-base-100 shadow-md lg:w-[40%] w-[80%] mx-auto">
           <div className="card-body p-4">
             <input
               type="text"

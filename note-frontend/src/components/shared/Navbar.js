@@ -1,6 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+
+
 const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
   return (
     <div className="bg-white p-3 border-b sticky top-0 left-0 z-50">

@@ -1,0 +1,11 @@
+.single-note{
+    display: block;
+}
+
+.note-tools {
+    visibility: hidden;
+}
+
+.single-note:hover .note-tools {
+    visibility: visible;
+}
