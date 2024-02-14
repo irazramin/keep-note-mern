@@ -7,17 +7,16 @@ import { faLightbulb, faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 const Dashboard = ({ sidebarOpen }) => {
   return (
     <div
-      className={`duration-200  top-[72px] px-[30px] ${
+      className={`duration-200  top-[72px] ${
         sidebarOpen ? "sidebar-open" : "sidebar"
       }`}
     >
       <ul className="icons w-full flex flex-col justify-center">
-        <li className=" ">
+        <li className="text-stone-800 hover:bg-rose-200 px-[30px] rounded-tr-3xl rounded-br-3xl">
           <div className="py-3">
             <Link to="">
               <div className="flex items-center">
-                {" "}
-                <span className="mr-5">
+                <span className="mr-5 text-stone-800">
                 <FontAwesomeIcon icon={faLightbulb} className="text-xl" />  
                 </span>
                 <p
@@ -31,7 +30,7 @@ const Dashboard = ({ sidebarOpen }) => {
             </Link>
           </div>
         </li>
-        <li className="">
+        <li className="text-stone-800 hover:bg-rose-200 px-[30px] rounded-tr-3xl rounded-br-3xl">
           <div className="py-3">
             <Link to="archrive">
               <div className="flex items-center">

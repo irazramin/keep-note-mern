@@ -9,9 +9,11 @@ module.exports = {
         const port = _configs('database.port');
         const dbName = _configs('database.dbName');
 
-        mongoose.connect(`mongodb://${hostname}:${port}/${dbName}`)
+        console.log(`mongodb://${hostname}:${port}/${dbName}`);
+
+        mongoose.connect(`mongodb://0.0.0.0:27017/keep-notes`)
             .then((res) => console.log('Mongo is connected'))
-            .catch((err) => console.log(err));
+            .catch((err) => console.log("db ====> ",err));
 
     }
 

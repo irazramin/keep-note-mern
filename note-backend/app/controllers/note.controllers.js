@@ -1,65 +1,53 @@
-const { Note } = require('../models/note.model');
+const { Note } = require("../models/note.model");
 
 module.exports = {
+  index: async (req, res) => {
+    const note = await Note.find({});
 
-    index: async(req,res) => {
+    if (!note) return res.status(404).send("not found");
 
-        const note = await Note.find({});
+    res.send(note);
+  },
 
-        if(!note) return res.status(404).send('not found');
+  store: async (req, res) => {
+    req.body.createdAt = new Date();
 
-        res.send(note);
+    let note = new Note(req.body);
 
-    },
+    await note.save();
 
-    store: async(req,res) => {
+    res.send(note);
+  },
 
-        req.body.createdAt = new Date();
+  show: async (req, res) => {
+    const id = req.params.id;
 
-        let note = new Note(req.body);
+    const note = await Note.find({ _id: id });
 
-        await note.save();
+    if (!note) return res.status(404).send("not found");
 
-        res.send(note);
+    res.send(note);
+  },
 
-    },
+  update: async (req, res) => {
+    req.body.updatedAt = new Date();
 
-    show: async(req,res) => {
+    const id = req.params.id;
 
-        const id = req.params.id;
+    const note = await Note.updateOne({ _id: id }, req.body, { new: true });
 
-        const note = await Note.find({_id: id});
+    if (!note) return res.status(404).send("not found");
 
-        if(!note) return res.status(404).send('not found');
+    res.send(note);
+  },
 
-        res.send(note);
+  delete: async (req, res) => {
+    const id = req.params.id;
 
-    },
+    const note = await Note.deleteOne({ _id: id });
 
-    update: async(req,res) => {
+    if (!note) return res.status(404).send("not found");
 
-        req.body.updatedAt = new Date();
-
-        const id = req.params.id;
-
-        const note = await Note.updateOne({_id: id}, req.body, {new: true});
-
-        if(!note) return res.status(404).send('not found');
-
-        res.send(note);
-
-    },
-
-    delete: async(req,res) => {
-
-        const id = req.params.id;
-
-        const note = await Note.deleteOne({_id: id});
-
-        if(!note) return res.status(404).send('not found');
-
-        res.send(note);
-
-    },
-
-}
+    res.send(note);
+  },
+};

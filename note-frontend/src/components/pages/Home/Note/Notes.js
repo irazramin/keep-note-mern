@@ -21,7 +21,7 @@ const Notes = () => {
   }
 
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto mt-10 bg-white">
       <div className="mb-5">
         <SearchOption
           setControlRender={setControlRender}

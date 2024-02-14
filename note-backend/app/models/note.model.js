@@ -1,29 +1,49 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const noteSchema = new mongoose.Schema({
+
+const collaboratorsSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const noteSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        maxlength: 100,
-        required: true
+      type: String,
+      required: false,
     },
     description: {
-        type: String,
+      type: String,
+        required: false,
     },
-    color: {
-        type: String
+    backgroundColor: {
+      type: String,
+      required: false,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now()
+    backgroundImage: {
+      type: String,
+      required: false,
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now()
-    }
+    collaborators: {
+      type: [collaboratorsSchema],
+    },
+    pinned: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-});
-
-const Note = mongoose.model('Note', noteSchema);
-
+const Note = mongoose.model("Note", noteSchema);
 
 module.exports.Note = Note;

@@ -27,37 +27,37 @@ const SearchOption = ({ setControlRender, controlRender }) => {
       });
   };
   return (
-    <div>
+    <div className="bg-white">
       {!collapseCard ? (
         <div
           onClick={handleCardCollapse}
-          className="card card-side rounded py-3 px-5 bg-base-100 shadow-md lg:w-[40%] w-[80%] mx-auto"
+          className="card card-side rounded py-3 px-5 shadow-md lg:w-[40%] w-[80%] mx-auto bg-white"
         >
-          <p className="font-semibold text-base">Take a note.....</p>
+          <p className="font-semibold text-base text-stone-800">Take a note.....</p>
         </div>
       ) : (
-        <div className="card   bg-base-100 shadow-md lg:w-[40%] w-[80%] mx-auto">
+        <div className="card rounded-[6px] shadow-md lg:w-[40%] w-[80%] mx-auto bg-white">
           <div className="card-body p-4">
             <input
               type="text"
-              placeholder="title"
+              placeholder="Title"
               onChange={(e) => setTitle(e.target.value)}
-              className="focus:outline-none font-bold p-1 focus:outline-none"
+              className="focus:outline-none p-1 text-stone-800 placeholder:text-stone-400 "
             />
             <input
               ref={titleRef}
               onChange={(e) => setDesc(e.target.value)}
               type="text"
-              placeholder="title"
-              className="focused focus:outline-none p-1 focus:outline-none mt-1"
+              placeholder="Take a note....."
+              className="focused p-1 focus:outline-none mt-1 text-stone-800"
             />
-            <div className="card-actions justify-between">
-              <button onClick={submitNote} className="btn btn-ghost">
+            <div className="card-actions justify-between mt-2">
+              <button onClick={submitNote} className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm">
                 Done
               </button>
               <button
                 onClick={() => setCollapseCard(false)}
-                className="btn btn-ghost"
+                className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm"
               >
                 Close
               </button>

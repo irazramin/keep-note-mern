@@ -8,13 +8,13 @@ const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
     <div className="bg-white p-3 border-b sticky top-0 left-0 z-50">
       <div className="container mx-auto">
         <div className="flex items-center gap-10">
-          <div>Keep Note</div>
+          <div className="text-stone-800 font-semibold">Keep Note</div>
           <div className="form-control">
             <div className="input-group">
               <input
                 type="text"
                 placeholder="Search…"
-                className="input input-bordered"
+                className="input input-bordered bg-white"
               />
               <button className="btn btn-square">
                 <svg
@@ -34,7 +34,7 @@ const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
               </button>
             </div>
           </div>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="absolute top-3 left-5 w-[45px] h-[45px]  rounded-full focus:bg-stone-200">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="absolute top-3 left-5 w-[45px] h-[45px]  rounded-full focus:bg-stone-200 text-stone-800">
             <FontAwesomeIcon icon={faBars} />
           </button>
         </div>
