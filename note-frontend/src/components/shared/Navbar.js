@@ -1,20 +1,22 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-
+import { useLocation } from "react-router-dom";
 
 const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
+  const pathname = useLocation().pathname;
+
   return (
     <div className="bg-white p-3 border-b sticky top-0 left-0 z-50">
       <div className="container mx-auto">
         <div className="flex items-center gap-10">
-          <div className="text-stone-800 font-semibold">Keep Note</div>
-          <div className="form-control">
+          <div className="text-stone-800 font-semibold min-w-[130px] capitalize">{pathname.slice(1)}</div>
+          <div className="form-control w-full">
             <div className="input-group">
               <input
                 type="text"
                 placeholder="Search…"
-                className="input input-bordered bg-white"
+                className="input input-bordered bg-white max-w-xl w-full"
               />
               <button className="btn btn-square">
                 <svg

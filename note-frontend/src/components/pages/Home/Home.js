@@ -7,16 +7,16 @@ import Dashboard from "./Dashboard/Dashboard";
 const Home = ({ sidebarOpen }) => {
   return (
     <>
-      <div className="mx-auto bg-white">
+      <div className="mx-auto bg-white ">
         <div className="w-full flex">
           <div
-            className={`bg-white h-screen ${
-              sidebarOpen ? "w-[220px] duration-200" : "w-[80px] duration-200"
+            className={`bg-white h-[calc(100vh-73px)] ${
+              sidebarOpen ? "w-[280px] duration-200" : "w-[80px] duration-200"
             }`}
           >
             <Dashboard sidebarOpen={sidebarOpen} />
           </div>
-          <div className="flex-1 p-5 overflow-hidden max-w-full bg-white">
+          <div className="flex-1 px-5        max-w-full">
             <Outlet />
           </div>
         </div>

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import SearchOption from "../SearchOption";
 import NoteModal from "./Modal/NoteModal";
 import Note from "./Note";
-
+import Masonry from "react-masonry-css";
+import "./note.css"
 const Notes = () => {
   const [notes, setNotes] = useState([]);
-  const [selectedNoteId, setSelectedNoteId] = useState('');
+  const [selectedNoteId, setSelectedNoteId] = useState("");
   const [controlRender, setControlRender] = useState(false);
 
   useEffect(() => {
@@ -18,11 +19,18 @@ const Notes = () => {
       .then((data) => {
         setNotes(data);
       });
-  }
+  };
+
+  const breakpointColumnsObj = {
+    default: 6,
+    1100: 6,
+    700: 2,
+    500: 1
+  };
 
   return (
-    <div className="container mx-auto mt-10 bg-white">
-      <div className="mb-5">
+    <div className="container mx-auto bg-white">
+      <div className="my-5">
         <SearchOption
           setControlRender={setControlRender}
           controlRender={controlRender}
@@ -30,23 +38,32 @@ const Notes = () => {
       </div>
 
       {notes.length > 0 ? (
-        <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-x-10 gap-y-7 flex-wrap">
-          {notes.map((note) => (
-            <>
-              <Note
-                note={note}
-                key={note._id}
-                onClick={(id) => setSelectedNoteId(id)}
-              />
-            </>
-          ))}
-        </div>
+        <>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {notes.map((note) => (
+              <>
+                <Note
+                  note={note}
+                  key={note._id}
+                  onClick={(id) => setSelectedNoteId(id)}
+                />
+              </>
+            ))}
+          </Masonry>
+        </>
       ) : (
         <div className="text-center mt-20">
           <h2>No notes found!</h2>
         </div>
       )}
-      <NoteModal selectedNoteId={selectedNoteId} onSubmit={(value) => value ? getNotes() : ''} />
+      <NoteModal
+        selectedNoteId={selectedNoteId}
+        onSubmit={(value) => (value ? getNotes() : "")}
+      />
     </div>
   );
 };

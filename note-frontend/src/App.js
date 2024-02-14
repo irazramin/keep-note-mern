@@ -11,11 +11,11 @@ function App() {
   const [sidebarOpen,setSidebarOpen] = useState(false)
   console.log(sidebarOpen)
   return (
-    <div className="min-h-screen">
+    <div className="w-full h-full">
       <Navbar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen}/>
       <Routes>
         <Route path="/" element={<Home sidebarOpen={sidebarOpen} />}>
-          <Route path="" element={<Notes />} index />
+          <Route path="/notes" element={<Notes />} index />
           <Route path="archrive" element={<Archrive />} />
           <Route path="trash" element={<Trash />} />
         </Route>
