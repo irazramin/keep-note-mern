@@ -12,7 +12,7 @@ import "./note.css";
 
 const Note = ({ note, onClick }) => {
   return (
-    <div  className="lg:w-full group modal-button border p-[15px] rounded-md mb-[20px] cursor-pointer hover:shadow single-note relative">
+    <div  className="lg:w-full group modal-button border px-[15px] pt-[10px] pb-1 rounded-md mb-[20px] cursor-pointer hover:shadow single-note relative">
           <label
       htmlFor="my-modal"
     >

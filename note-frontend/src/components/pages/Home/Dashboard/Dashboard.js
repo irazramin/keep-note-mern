@@ -3,6 +3,7 @@ import logo from "../../../../logo.svg";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLightbulb, faFolderOpen } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = ({ sidebarOpen }) => {
   const pathname = useLocation().pathname;
@@ -18,6 +19,12 @@ const Dashboard = ({ sidebarOpen }) => {
       name: "Archrive",
       icon: faFolderOpen,
       link: "/archrive",
+    },
+    {
+      id: 3,
+      name: "Trash",
+      icon: faTrash,
+      link: "/trash",
     },
   ];
   return (
