@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BACKEND_URL } from "../../../../../utils/urls";
 
 const NoteModal = ({ selectedNoteId, onSubmit }) => {
 
@@ -6,7 +7,7 @@ const NoteModal = ({ selectedNoteId, onSubmit }) => {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/v1/note/${selectedNoteId}`)
+    fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data[0]?.title ?? '');
@@ -20,7 +21,7 @@ const NoteModal = ({ selectedNoteId, onSubmit }) => {
       description: description,
     };
 
-    fetch(`http://localhost:4000/api/v1/note/${selectedNoteId}`, {
+    fetch(`${BACKEND_URL}api/v1/note/${selectedNoteId}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

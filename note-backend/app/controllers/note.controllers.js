@@ -6,48 +6,62 @@ module.exports = {
 
     if (!note) return res.status(404).send("not found");
 
-    res.send(note);
+    return res.status(200).json(note);
   },
 
   store: async (req, res) => {
-    req.body.createdAt = new Date();
+    try {
+      req.body.createdAt = new Date();
 
-    let note = new Note(req.body);
+      let note = new Note(req.body);
 
-    await note.save();
-
-    res.send(note);
+      await note.save();
+      return res.status(201).json(note);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   },
 
   show: async (req, res) => {
-    const id = req.params.id;
+    try {
+      const id = req.params.id;
 
-    const note = await Note.find({ _id: id });
+      const note = await Note.find({ _id: id });
 
-    if (!note) return res.status(404).send("not found");
+      if (!note) return res.status(404).send("not found");
 
-    res.send(note);
+      return res.status(200).json(note);
+      
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   },
 
   update: async (req, res) => {
-    req.body.updatedAt = new Date();
+    try {
+      const id = req.params.id;
 
-    const id = req.params.id;
+      const note = await Note.updateOne({ _id: id }, req.body, { new: true });
 
-    const note = await Note.updateOne({ _id: id }, req.body, { new: true });
+      if (!note) return res.status(404).send("not found");
 
-    if (!note) return res.status(404).send("not found");
-
-    res.send(note);
+      return res.status(200).json(note);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   },
 
   delete: async (req, res) => {
-    const id = req.params.id;
+    try {
+      const id = req.params.id;
 
-    const note = await Note.deleteOne({ _id: id });
+      const note = await Note.deleteOne({ _id: id });
 
-    if (!note) return res.status(404).send("not found");
+      if (!note) return res.status(404).send("not found");
 
-    res.send(note);
+      return res.status(200).json(note);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   },
 };

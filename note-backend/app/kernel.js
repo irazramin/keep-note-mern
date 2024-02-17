@@ -4,12 +4,12 @@ const routerProviders = require("../app/providers/routes.providers");
 
 module.exports = {
     boot: (app) => {
+        require('dotenv').config();
 
         databaseProviders.connect();
 
         middlewareProviders.middleware(app);
 
         routerProviders.router(app);
-
     }
 }

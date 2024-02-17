@@ -5,16 +5,9 @@ module.exports = {
 
     connect: () => {
 
-        const hostname = _configs('database.hostname');
-        const port = _configs('database.port');
-        const dbName = _configs('database.dbName');
-
-        console.log(`mongodb://${hostname}:${port}/${dbName}`);
-
-        mongoose.connect(`mongodb://0.0.0.0:27017/keep-notes`)
+        mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@keep-note.mh7hfum.mongodb.net`)
             .then((res) => console.log('Mongo is connected'))
             .catch((err) => console.log("db ====> ",err));
-
     }
 
 }

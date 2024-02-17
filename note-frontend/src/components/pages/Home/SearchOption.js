@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { BACKEND_URL } from "../../../utils/urls";
 
 const SearchOption = ({ setControlRender, controlRender }) => {
   const [collapseCard, setCollapseCard] = useState(false);
@@ -11,7 +12,7 @@ const SearchOption = ({ setControlRender, controlRender }) => {
   };
 
   const submitNote = () => {
-    fetch(`http://localhost:4000/api/v1/note`, {
+    fetch(`${BACKEND_URL}/api/v1/note`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

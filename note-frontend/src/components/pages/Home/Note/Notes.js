@@ -4,6 +4,7 @@ import NoteModal from "./Modal/NoteModal";
 import Note from "./Note";
 import Masonry from "react-masonry-css";
 import "./note.css"
+import { BACKEND_URL } from "../../../../utils/urls";
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNoteId, setSelectedNoteId] = useState("");
@@ -14,7 +15,7 @@ const Notes = () => {
   }, [controlRender]);
 
   const getNotes = () => {
-    fetch(`http://localhost:4000/api/v1/note`)
+    fetch(`${BACKEND_URL}/api/v1/note`)
       .then((res) => res.json())
       .then((data) => {
         setNotes(data);
