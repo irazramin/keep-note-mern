@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../../../../utils/urls";
 
-const NoteModal = ({ selectedNoteId, onSubmit }) => {
+const NoteModal = ({ selectedNoteId, onSubmit, selectedNote, setSelectedNote }) => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -21,7 +21,7 @@ const NoteModal = ({ selectedNoteId, onSubmit }) => {
       description: description,
     };
 
-    fetch(`${BACKEND_URL}api/v1/note/${selectedNoteId}`, {
+    fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -55,12 +55,12 @@ const NoteModal = ({ selectedNoteId, onSubmit }) => {
               value={description}
             />
 
-            <div className="card-actions justify-between items-center">
-              <button onClick={updateNote} className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm">
+            <div className="card-actions modal-action justify-between items-center" onClick={() => setSelectedNote(null)}>
+              <button htmlFor="my-modal"  onClick={updateNote} className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm">
                 Done
               </button>
               
-              <button className="modal-action  mt-0">
+              <button className="modal-action mt-0" onClick={() => setSelectedNote(null)}>
                 <label htmlFor="my-modal" className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm">
                   Close
                 </label>

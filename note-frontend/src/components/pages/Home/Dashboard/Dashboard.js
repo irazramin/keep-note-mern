@@ -1,9 +1,10 @@
 import React from "react";
 import logo from "../../../../logo.svg";
 import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLightbulb, faFolderOpen } from "@fortawesome/free-regular-svg-icons";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { BiPencil } from "react-icons/bi";
+import { PiArchiveBoxBold } from "react-icons/pi";
+import { PiTrashBold } from "react-icons/pi";
+import { PiLightbulbBold } from "react-icons/pi";
 
 const Dashboard = ({ sidebarOpen }) => {
   const pathname = useLocation().pathname;
@@ -11,19 +12,19 @@ const Dashboard = ({ sidebarOpen }) => {
     {
       id: 1,
       name: "Notes",
-      icon: faLightbulb,
+      Icon: PiLightbulbBold,
       link: "/notes",
     },
     {
       id: 2,
       name: "Archrive",
-      icon: faFolderOpen,
+      Icon: PiArchiveBoxBold,
       link: "/archrive",
     },
     {
       id: 3,
       name: "Trash",
-      icon: faTrash,
+      Icon: PiTrashBold,
       link: "/trash",
     },
   ];
@@ -35,15 +36,15 @@ const Dashboard = ({ sidebarOpen }) => {
     >
       <ul className="icons w-full flex flex-col justify-center ">
         {sidebarItems.map((item) => (
-          <li key={item.id} className={`text-stone-800 hover:bg-rose-200 px-[30px] rounded-tr-3xl rounded-br-3xl ${item.link === pathname ? 'bg-rose-200' : ''}`}>
-            <div className="py-3">
+          <li key={item.id} className={`text-stone-800 hover:bg-slate-100 px-[30px] rounded-tr-3xl rounded-br-3xl ${item.link === pathname ? 'bg-rose-200' : ''}`}>
+            <div className="py-4">
               <Link to={item.link}>
                 <div className="flex items-center">
                   <span className="mr-5 text-stone-800">
-                    <FontAwesomeIcon icon={item.icon} className="text-lg w-5" />
+                    <item.Icon className="text-xl w-5" />
                   </span>
                   <p
-                    className={`text-[13px]  font-semibold ${
+                    className={`text-[14px]  font-semibold ${
                       sidebarOpen ? "" : "sidebar-title"
                     }`}
                   >

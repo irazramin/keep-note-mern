@@ -5,26 +5,39 @@ export const colors = [
   },
   {
     id: 2,
-    color: "#d9b6a3",
+    color: "#FFAB76",
   },
   {
     id: 3,
-    color: "#d8d0c5",
+    color: "#FFBED8",
   },
   {
     id: 4,
-    color: "#272401",
+    color: "#DFCCFB",
   },
   {
     id: 5,
-    color: "#617246",
+    color: "#FFF8C9",
   },
   {
+    id: 6,
+    color: "#99F3BD",
+  },
+  
+  {
     id: 7,
-    color: "#a6445d",
+    color: "#FF8585",
   },
   {
     id: 8,
-    color: "#819fa7",
+    color: "#B9E9FC",
+  },
+  {
+    id: 9,
+    color: "#EEEEEE",
+  },
+  {
+    id: 10,
+    color: "#F9E4C8",
   },
 ];

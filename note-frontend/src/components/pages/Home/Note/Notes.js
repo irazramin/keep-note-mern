@@ -9,6 +9,7 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNoteId, setSelectedNoteId] = useState("");
   const [controlRender, setControlRender] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
 
   useEffect(() => {
     getNotes();
@@ -23,10 +24,10 @@ const Notes = () => {
   };
 
   const breakpointColumnsObj = {
-    default: 6,
-    1100: 6,
-    700: 2,
-    500: 1
+    default: 5,
+    1100: 5,
+    700: 3,
+    500: 2
   };
 
   return (
@@ -51,6 +52,9 @@ const Notes = () => {
                   note={note}
                   key={note._id}
                   onClick={(id) => setSelectedNoteId(id)}
+                  setNotes={setNotes}
+                  selectedNote={selectedNote}
+                  setSelectedNote={setSelectedNote}
                 />
               </>
             ))}
@@ -64,6 +68,8 @@ const Notes = () => {
       <NoteModal
         selectedNoteId={selectedNoteId}
         onSubmit={(value) => (value ? getNotes() : "")}
+        selectedNote={selectedNote}
+        setSelectedNote={setSelectedNote}
       />
     </div>
   );
