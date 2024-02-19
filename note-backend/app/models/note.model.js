@@ -34,9 +34,10 @@ const noteSchema = new mongoose.Schema(
     collaborators: {
       type: [collaboratorsSchema],
     },
-    pinned: {
+    isPinned: {
       type: Boolean,
       required: false,
+      default: false,
     },
   },
   {

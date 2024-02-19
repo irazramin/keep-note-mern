@@ -6,12 +6,14 @@ import Masonry from "react-masonry-css";
 import "./note.css";
 import { BACKEND_URL } from "../../../../utils/urls";
 import Modal from "../../../common/Modal/Modal";
+import PinnedNote from "../../../common/PinnedNote/PinnedNote";
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNoteId, setSelectedNoteId] = useState("");
   const [controlRender, setControlRender] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [pinnedNotes, setPinnedNotes] = useState([]);
 
   useEffect(() => {
     getNotes();
@@ -24,6 +26,14 @@ const Notes = () => {
         setNotes(data);
       });
   };
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/api/v1/pinned-note`)
+      .then((res) => res.json())
+      .then((data) => {
+        setPinnedNotes(data.data);
+      });
+  }, [controlRender]);
 
   const breakpointColumnsObj = {
     default: 5,
@@ -41,6 +51,22 @@ const Notes = () => {
         />
       </div>
 
+      <PinnedNote
+        controlRender={controlRender}
+        pinnedNotes={pinnedNotes}
+        selectedNote={selectedNote}
+        setControlRender={setControlRender}
+        setPinnedNotes={setPinnedNotes}
+        setSelectedNote={setSelectedNote}
+        setShowModal={setShowModal}
+        showModal={showModal}
+      />
+
+      {pinnedNotes?.length > 0 && (
+        <h4 className="font-semibold text-xs mb-3 uppercase text-zinc-400">
+          Others
+        </h4>
+      )}
       {notes?.length > 0 ? (
         <>
           <Masonry
@@ -77,8 +103,6 @@ const Notes = () => {
         selectedNote={selectedNote}
         setSelectedNote={setSelectedNote}
       /> */}
-
-   
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
@@ -12,7 +12,6 @@ import { PiArchiveBoxBold } from "react-icons/pi";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { FaRegImage } from "react-icons/fa";
 import { LuUserPlus2 } from "react-icons/lu";
-
 import "./note.css";
 import Dropdown from "../../../common/Dropdown/Dropdown";
 import { colors } from "./utils/colors";
@@ -29,12 +28,15 @@ const Note = ({
   showModal,
   setShowModal,
 }) => {
+  const noteRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState({});
   const handleDropdown = (e, type) => {
     e.stopPropagation();
     setShowDropdown({ ...showDropdown, [type]: !showDropdown[type] });
     console.log(type);
   };
+
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const handleSelectColor = (e, color) => {
     e.stopPropagation();
@@ -61,9 +63,43 @@ const Note = ({
   const handleNoteClick = (item) => {
     setSelectedNote(item);
     setShowModal(!showModal);
+    setOffset({
+      x: noteRef.current.getBoundingClientRect().top,
+      y: noteRef.current.getBoundingClientRect().left,
+    });
+    localStorage.setItem("notePosition", JSON.stringify({
+      x: noteRef.current.getBoundingClientRect().top,
+      y: noteRef.current.getBoundingClientRect().left,
+    }));
   };
+
+  const handlePinNote = (e, id) => {
+    e.stopPropagation();
+    
+    const data = {
+      isPinned: !note.isPinned,
+    };
+    
+    axios
+      .put(`${BACKEND_URL}/api/v1/pin-note/${id}`, data)
+      .then((res) => {
+        console.log(res);
+        setNotes((prev) => {
+          return prev.map((item) => {
+            if (item._id === id) {
+              return { ...item, isPinned: !note.isPinned };
+            }
+            return item;
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div
+      ref={noteRef}
       onMouseLeave={() => setShowDropdown({})}
       onClick={() => handleNoteClick(note)}
       style={{ backgroundColor: note?.backgroundColor }}
@@ -139,11 +175,16 @@ const Note = ({
             <FontAwesomeIcon className="text-sm" icon={faEllipsisVertical} />
           </div>
         </div>
-        <div className="absolute top-[10px] right-[10px] hover:text-stone-800 group-hover:block hidden text-stone-500">
+        <div onClick={(e) => handlePinNote(e, note?._id)} className={`absolute top-[10px] right-[10px] hover:text-stone-800 group-hover:block hidden ${note?.isPinned ? 'text-stone-800' : 'text-stone-500'}`}>
           <FontAwesomeIcon icon={faThumbTack} />
         </div>
       </div>
-      <Modal showModal={showModal} setShowModal={setShowModal}>
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        offset={offset}
+        setOffset={setOffset}
+      >
         <EditNote
           setShowModal={setShowModal}
           showModal={showModal}
