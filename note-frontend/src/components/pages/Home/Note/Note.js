@@ -18,8 +18,17 @@ import Dropdown from "../../../common/Dropdown/Dropdown";
 import { colors } from "./utils/colors";
 import { BACKEND_URL } from "../../../../utils/urls";
 import Modal from "../../../common/Modal/Modal";
+import EditNote from "../../../common/Modal/ModalContents/EditNote";
 
-const Note = ({ note, onClick, setNotes, selectedNote, setSelectedNote }) => {
+const Note = ({
+  note,
+  onClick,
+  setNotes,
+  selectedNote,
+  setSelectedNote,
+  showModal,
+  setShowModal,
+}) => {
   const [showDropdown, setShowDropdown] = useState({});
   const handleDropdown = (e, type) => {
     e.stopPropagation();
@@ -49,17 +58,20 @@ const Note = ({ note, onClick, setNotes, selectedNote, setSelectedNote }) => {
       });
   };
 
-
-  const handleNoteClick = (id) => {
-    setSelectedNote(id);
-  }
+  const handleNoteClick = (item) => {
+    setSelectedNote(item);
+    setShowModal(!showModal);
+  };
   return (
     <div
-      onClick={() => handleNoteClick(note?._id)}
+      onMouseLeave={() => setShowDropdown({})}
+      onClick={() => handleNoteClick(note)}
       style={{ backgroundColor: note?.backgroundColor }}
-      className={`lg:w-full group modal-button border px-[15px] pt-[10px] pb-1 rounded-md mb-[20px] cursor-pointer hover:shadow single-note relative ${selectedNote === note._id ? "opacity-0" : "opacity-100"}`}
+      className={`lg:w-full group modal-button border px-[15px] pt-[10px] pb-1 rounded-md mb-[20px] cursor-pointer hover:shadow-gray-200 hover:shadow-md single-note relative ${
+        selectedNote?._id === note._id ? "opacity-0" : "opacity-100"
+      }`}
     >
-      <label htmlFor="my-modal" className="transition-all duration-300">
+      <label className="transition-all duration-300">
         <div>
           <div className="" onClick={() => onClick(note._id)}>
             <h2 className="font-semibold text-base break-words text-stone-800 cursor-pointer">
@@ -127,13 +139,19 @@ const Note = ({ note, onClick, setNotes, selectedNote, setSelectedNote }) => {
             <FontAwesomeIcon className="text-sm" icon={faEllipsisVertical} />
           </div>
         </div>
-        <div className="absolute top-[10px] right-[10px] hover:text-stone-800 group-hover:block hidden">
+        <div className="absolute top-[10px] right-[10px] hover:text-stone-800 group-hover:block hidden text-stone-500">
           <FontAwesomeIcon icon={faThumbTack} />
         </div>
       </div>
-      {/* <Modal >
-        hello world
-      </Modal> */}
+      <Modal showModal={showModal} setShowModal={setShowModal}>
+        <EditNote
+          setShowModal={setShowModal}
+          showModal={showModal}
+          selectedNote={selectedNote}
+          setSelectedNote={setSelectedNote}
+          setNotes={setNotes}
+        />
+      </Modal>
     </div>
   );
 };

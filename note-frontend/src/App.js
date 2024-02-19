@@ -11,7 +11,7 @@ function App() {
   const [sidebarOpen,setSidebarOpen] = useState(false)
   console.log(sidebarOpen)
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-white">
       <Navbar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen}/>
       <Routes>
         <Route path="/" element={<Home sidebarOpen={sidebarOpen} />}>

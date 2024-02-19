@@ -31,7 +31,7 @@ module.exports = {
       if (!note) return res.status(404).send("not found");
 
       return res.status(200).json(note);
-      
+
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
@@ -41,7 +41,7 @@ module.exports = {
     try {
       const id = req.params.id;
 
-      const note = await Note.updateOne({ _id: id }, req.body, { new: true });
+      const note = await Note.findByIdAndUpdate(id, req.body, { new: true });
 
       if (!note) return res.status(404).send("not found");
 

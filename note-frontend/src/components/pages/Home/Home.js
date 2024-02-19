@@ -16,7 +16,7 @@ const Home = ({ sidebarOpen }) => {
           >
             <Dashboard sidebarOpen={sidebarOpen} />
           </div>
-          <div className="flex-1 px-5        max-w-full">
+          <div className={`flex-1 h-[calc(100vh-73px)] ${!sidebarOpen ? 'left-[80px] w-[calc(100%-80px)]' : 'left-[280px] w-[calc(100%-280px)]'}  absolute`}>
             <Outlet />
           </div>
         </div>

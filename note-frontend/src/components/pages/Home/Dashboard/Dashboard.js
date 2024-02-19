@@ -31,22 +31,29 @@ const Dashboard = ({ sidebarOpen }) => {
   return (
     <div
       className={`duration-200 bg-white top-[72px] ${
-        sidebarOpen ? "sidebar-open" : "sidebar"
-      }`}
+        sidebarOpen
+          ? "sidebar-open"
+          : "fixed w-[80px]  h-screen transition-all duration-300 overflow-hidden"
+      } hover:w-[280px] hover:fixed hover:shadow-md z-50 group`}
     >
       <ul className="icons w-full flex flex-col justify-center ">
         {sidebarItems.map((item) => (
-          <li key={item.id} className={`text-stone-800 hover:bg-slate-100 px-[30px] rounded-tr-3xl rounded-br-3xl ${item.link === pathname ? 'bg-rose-200' : ''}`}>
-            <div className="py-4">
+          <li
+            key={item.id}
+            className={`text-stone-800 hover:bg-slate-100 px-[30px] rounded-tr-3xl rounded-br-3xl ${
+              item.link === pathname ? "bg-rose-200" : ""
+            }`}
+          >
+            <div className="">
               <Link to={item.link}>
-                <div className="flex items-center">
+                <div className="flex items-center py-4">
                   <span className="mr-5 text-stone-800">
                     <item.Icon className="text-xl w-5" />
                   </span>
                   <p
                     className={`text-[14px]  font-semibold ${
-                      sidebarOpen ? "" : "sidebar-title"
-                    }`}
+                      sidebarOpen ? "" : "hidden"
+                    } group-hover:block`}
                   >
                     {item.name}
                   </p>
