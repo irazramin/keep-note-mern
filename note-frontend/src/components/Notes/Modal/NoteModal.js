@@ -1,24 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../../utils/urls";
-import { PiArchiveBoxBold } from "react-icons/pi";
-import { IoColorPaletteOutline } from "react-icons/io5";
-import Dropdown from "../../common/Dropdown/Dropdown";
-import { FaRegImage } from "react-icons/fa";
-import { LuUserPlus2 } from "react-icons/lu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { colors } from "./Note/utils/colors";
+import { LuUserPlus2 } from "react-icons/lu";
+import { FaRegImage } from "react-icons/fa";
+import { colors } from "../../../utils/colors";
+import Dropdown from "../../common/Dropdown/Dropdown";
+import { IoColorPaletteOutline } from "react-icons/io5";
+import { PiArchiveBoxBold } from "react-icons/pi";
 
-const SearchOption = ({ setControlRender, controlRender }) => {
-  const [collapseCard, setCollapseCard] = useState(false);
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const descriptionRef = useRef(null);
+const NoteModal = ({
+  selectedNoteId,
+  onSubmit,
+  selectedNote,
+  setSelectedNote,
+}) => {
   const [showDropdown, setShowDropdown] = useState({});
   const [selectedColor, setSelectedColor] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  const handleCardCollapse = () => {
-    setCollapseCard(true);
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTitle(data[0]?.title ?? "");
+        setDescription(data[0]?.description ?? "");
+        setSelectedColor(data[0]?.backgroundColor ?? "");
+      });
+  }, [selectedNoteId]);
+  
+  const updateNote = () => {
+    const updateNote = {
+      title: title,
+      description: description,
+      backgroundColor: selectedColor,
+    };
+
+    fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updateNote),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        onSubmit(true);
+      });
+
+      setSelectedNote(null);
   };
 
   const handleDropdown = (e, type) => {
@@ -27,70 +58,30 @@ const SearchOption = ({ setControlRender, controlRender }) => {
     console.log(type);
   };
 
-  const submitNote = () => {
-    if (!title && !desc) return;
-    if (title || desc) {
-      fetch(`${BACKEND_URL}/api/v1/note`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          title: title,
-          description: desc,
-          backgroundColor: selectedColor,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setControlRender(!controlRender);
-        });
-    }
-
-    setCollapseCard(false);
-    setTitle("");
-    setDesc("");
-    setSelectedColor("");
-  };
-
   const handleSelectColor = (e, color) => {
     e.stopPropagation();
     setSelectedColor(color.color);
   };
 
-  useEffect(() => {
-    if (collapseCard) descriptionRef.current.focus();
-  }, [descriptionRef]);
   return (
-    <div className="bg-white">
-      {!collapseCard ? (
-        <div
-          onClick={handleCardCollapse}
-          className="card card-side rounded py-3 px-5 shadow-md lg:w-[40%] w-[80%] mx-auto bg-white"
-        >
-          <p className="font-semibold text-base text-stone-800">
-            Take a note.....
-          </p>
-        </div>
-      ) : (
-        <div
-          style={{ backgroundColor: `${selectedColor}` }}
-          className={`rounded-[6px] shadow-md lg:w-[40%] w-full mx-auto bg-[${selectedColor}]`}
-        >
-          <div className="p-4 h-fit">
+    <>
+      <input type="checkbox" id="my-modal" className="modal-toggle" />
+      <div className="modal">
+        <div style={{backgroundColor: `${selectedColor}`}} className="bg-white shadow-md w-[40%] mx-auto rounded-md">
+          <div className="p-4">
             <input
               type="text"
-              placeholder="Title"
+              placeholder="title"
               onChange={(e) => setTitle(e.target.value)}
-              className="focus:outline-none p-1 text-stone-800 placeholder:text-stone-600 bg-transparent w-full"
+              className="focus:outline-none font-bold p-1 text-stone-800 bg-transparent w-full"
+              value={title}
             />
             <textarea
-              ref={descriptionRef}
-              onChange={(e) => setDesc(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               type="text"
-              placeholder="Take a note....."
-              cols={5}
-              className="focused p-1 focus:outline-none mt-1 text-stone-800 placeholder:text-stone-500 bg-transparent w-full h-auto resize-none"
+              placeholder="title"
+              className="focused p-1 focus:outline-none mt-1 text-stone-800 h-fit break-words bg-transparent w-full resize-none overflow-hidden"
+              value={description}
             />
 
             <div className="card-actions justify-between mt-2">
@@ -152,11 +143,10 @@ const SearchOption = ({ setControlRender, controlRender }) => {
                   />
                 </div>
               </div>
-              <button
-                onClick={submitNote}
-                className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm"
-              >
-                Done
+              <button className="modal-action mt-0" onClick={updateNote}>
+                <label htmlFor="my-modal" className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm">
+                  Done
+                </label>
               </button>
               {/* <button
                 onClick={() => setCollapseCard(false)}
@@ -167,9 +157,9 @@ const SearchOption = ({ setControlRender, controlRender }) => {
             </div>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 
-export default SearchOption;
+export default NoteModal;

@@ -1,21 +1,22 @@
 import "./App.css";
 import Navbar from "./components/shared/Navbar";
-import Home from "./components/pages/Home/Home";
+import Index from "./pages/Home";
 import { Route, Routes } from "react-router";
-import Notes from "./components/pages/Home/Note/Notes";
-import Archrive from "./components/pages/Home/Dashboard/Archrive/Archrive";
-import Trash from "./components/pages/Home/Dashboard/Trash/Trash";
+import Notes from "./pages/Notes/Notes";
+import Trash from "./pages/Trash/Trash";
+import Archrive from "./pages/Archrive/Archrive";
 import { useState } from "react";
+import Login from "./pages/login";
 
 function App() {
   const [sidebarOpen,setSidebarOpen] = useState(false)
   console.log(sidebarOpen)
   return (
-    <div className="w-full h-full bg-white">
-      <Navbar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen}/>
+    <div className="w-full h-screen bg-white">
       <Routes>
-        <Route path="/" element={<Home sidebarOpen={sidebarOpen} />}>
-          <Route path="/notes" element={<Notes />} index />
+        <Route path="/login"  element={<Login />}/>
+        <Route path="/dashboard" element={<Index sidebarOpen={sidebarOpen} />}>
+          <Route path="notes" element={<Notes />} index />
           <Route path="archrive" element={<Archrive />} />
           <Route path="trash" element={<Trash />} />
         </Route>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { PiArchiveBoxBold } from "react-icons/pi";
 import Dropdown from "../../Dropdown/Dropdown";
-import { colors } from "../../../pages/Home/Note/utils/colors";
+import { colors } from "../../../../utils/colors";
 import { FaRegImage } from "react-icons/fa";
 import { LuUserPlus2 } from "react-icons/lu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

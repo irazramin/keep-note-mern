@@ -3,7 +3,7 @@ const { Note } = require("../models/note.model");
 module.exports = {
   index: async (req, res) => {
     const query = {isPinned: false};
-    const note = await Note.find(query);
+    const note = await Note.find({})
 
     if (!note) return res.status(404).send("not found");
 
@@ -90,6 +90,7 @@ module.exports = {
 
       return res.status(200).json({ message: 'Notes fetched successfully', data: notes });
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ error: error });
     }
   }

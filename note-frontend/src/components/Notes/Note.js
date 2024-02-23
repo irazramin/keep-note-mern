@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import {
-  faPalette,
   faEllipsisVertical,
   faThumbTack,
-  faImage,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { PiArchiveBoxBold } from "react-icons/pi";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { FaRegImage } from "react-icons/fa";
 import { LuUserPlus2 } from "react-icons/lu";
-import "./note.css";
-import Dropdown from "../../../common/Dropdown/Dropdown";
-import { colors } from "./utils/colors";
-import { BACKEND_URL } from "../../../../utils/urls";
-import Modal from "../../../common/Modal/Modal";
-import EditNote from "../../../common/Modal/ModalContents/EditNote";
+import { TbDropletOff } from "react-icons/tb";
+
+import "../../pages/Notes/note.css";
+import Dropdown from "../common/Dropdown/Dropdown";
+import { colors } from "../../utils/colors";
+import { BACKEND_URL } from "../../utils/urls";
+import Modal from "../common/Modal/Modal";
+import EditNote from "../common/Modal/ModalContents/EditNote";
 
 const Note = ({
   note,
@@ -27,6 +27,11 @@ const Note = ({
   setSelectedNote,
   showModal,
   setShowModal,
+  notes,
+  controlRender,
+  setControlRender,
+  pinRender,
+  setPinRender,
 }) => {
   const noteRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState({});
@@ -35,7 +40,6 @@ const Note = ({
     setShowDropdown({ ...showDropdown, [type]: !showDropdown[type] });
     console.log(type);
   };
-
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const handleSelectColor = (e, color) => {
@@ -73,30 +77,29 @@ const Note = ({
     }));
   };
 
-  const handlePinNote = (e, id) => {
+  const handleNotePinned = (e, id) => {
     e.stopPropagation();
-    
-    const data = {
-      isPinned: !note.isPinned,
-    };
-    
     axios
-      .put(`${BACKEND_URL}/api/v1/pin-note/${id}`, data)
+      .put(`${BACKEND_URL}/api/v1/pin-note/${id}`, {
+        isPinned: !note.isPinned,
+      })
       .then((res) => {
-        console.log(res);
+        
         setNotes((prev) => {
           return prev.map((item) => {
-            if (item._id === id) {
+            if (item._id === note._id) {
               return { ...item, isPinned: !note.isPinned };
             }
             return item;
           });
         });
+        setControlRender(!controlRender);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
+
   return (
     <div
       ref={noteRef}
@@ -140,8 +143,14 @@ const Note = ({
             >
               <div>
                 <ul className="flex items-center gap-2 flex-wrap">
+                <li onClick={(e) => handleSelectColor(e, "#ffffff")}
+ className="w-8 h-8 rounded-full ring-1 ring-slate-200 p-1 transition-all cursor-pointer text-slate-800 flex items-center justify-center text-xl">
+                  <TbDropletOff/>
+                </li>
+
                   {colors.map((color) => {
                     return (
+                      
                       <li
                         key={color.id}
                         onClick={(e) => handleSelectColor(e, color)}
@@ -175,7 +184,7 @@ const Note = ({
             <FontAwesomeIcon className="text-sm" icon={faEllipsisVertical} />
           </div>
         </div>
-        <div onClick={(e) => handlePinNote(e, note?._id)} className={`absolute top-[10px] right-[10px] hover:text-stone-800 group-hover:block hidden ${note?.isPinned ? 'text-stone-800' : 'text-stone-500'}`}>
+        <div onClick={(e) => handleNotePinned(e, note?._id)} className={`absolute top-[10px] right-[10px] hover:text-stone-800 group-hover:block hidden  ${note?.isPinned ? 'text-stone-800' : 'text-stone-500'}`}>
           <FontAwesomeIcon icon={faThumbTack} />
         </div>
       </div>

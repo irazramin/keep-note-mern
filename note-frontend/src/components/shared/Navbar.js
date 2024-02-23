@@ -2,10 +2,13 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { isOpen } from "../../features/slices/sideBarSlice";
 
-const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
+const Navbar = () => {
   const pathname = useLocation().pathname;
-
+  const isOpenSidebar = useSelector((state) => state.sideBar.value);
+  const dispatch = useDispatch();
   return (
     <div className="bg-white p-3 border-b sticky top-0 left-0 z-50">
       <div className="px-2">
@@ -13,14 +16,16 @@ const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
           <div className="flex items-center gap-10">
             <div className="!w-[45px] h-[45px]  rounded-full hover:bg-stone-200">
               <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
+                onClick={() => {
+                  dispatch(isOpen(!isOpenSidebar));
+                }}
                 className="w-full h-full text-stone-800"
-              >
+              > 
                 <FontAwesomeIcon icon={faBars} />
               </button>
             </div>
             <div className="text-stone-800 font-semibold min-w-[130px] capitalize">
-              {pathname.slice(1)}
+              {pathname.split("/")[2]}
             </div>
             <div className="form-control w-full">
               <div className="input-group">
