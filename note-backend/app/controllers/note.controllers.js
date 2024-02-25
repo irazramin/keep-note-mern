@@ -1,4 +1,4 @@
-const { Note } = require("../models/note.model");
+const { Note } = require("../models");
 
 module.exports = {
   index: async (req, res) => {
