@@ -4,9 +4,11 @@ import axios from "axios";
 import { PiLockKey } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/urls";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [fieldErrors, setFieldErrors] = useState([]);
+  const navigate = useNavigate();
 
   const handleInputField = (e, type) => {
     const updatedField = { ...formData };
@@ -28,8 +30,12 @@ const Login = () => {
       if (!hasError) {
         const response = await axios.post(`${BACKEND_URL}/api/v1/login`, data, {
           withCredentials: true,
-          credentials: "include",
+          credentials: 'include'
         });
+
+        if (response.data) { 
+          navigate('/dashboard/notes');
+        }
       }
     } catch (error) {
       console.log(error);
@@ -59,7 +65,7 @@ const Login = () => {
   return (
     <div className="w-screen h-screen  bg-gradient-to-r from-primary to-sky-400 flex items-center justify-center">
       {/* <img src={'/images/auth_bg_3.jpg'} alt="bg" className="absolute top-0 left-0 w-full h-full" /> */}
-      <div className="w-[420px] min-h-[400px] bg-white p-8 rounded-lg shadow-lg">
+      <div className="w-[420px] min-h-[400px] bg-white lg:p-8 p-4 m-4 md:m-0 rounded-lg shadow-lg">
         <div className="flex items-center justify-center flex-col">
           <h1 className="text-2xl font-bold text-slate-800">Login</h1>
           <p className="text-sm text-slate-700 mt-1">Login to your account</p>
@@ -80,7 +86,7 @@ const Login = () => {
                 placeholder="Enter your email"
                 onChange={(e) => handleInputField(e, "email")}
                 className={`w-full border rounded-md pr-5 pl-10 py-[12px] bg-gray-100 mt-1 text-sm border-transparent focus:border-primary focus:outline-none py-2 ${
-                  getErrorMessage("email") ? "border-red-500" : ""
+                  getErrorMessage("email") ? "border-red-500 focus:border-red-500" : ""
                 }`}
               />
               <MdOutlineMailOutline className="absolute top-[40%] -translate-x-1/2 left-[22px]" />
@@ -97,7 +103,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 onChange={(e) => handleInputField(e, "password")}
                 className={`w-full border rounded-md pr-5 pl-10 py-[12px] bg-gray-100 mt-1 text-sm border-transparent focus:border-primary focus:outline-none py-2 ${
-                  getErrorMessage("password") ? "border-red-500" : ""
+                  getErrorMessage("password") ? "border-red-500 focus:border-red-500" : ""
                 }`}
               />
               <PiLockKey className="absolute top-[40%] -translate-x-1/2 left-[22px]" />

@@ -1,13 +1,14 @@
 const express = require('express');
 const noteControllers = require("../controllers/note.controllers");
 const { register, login } = require('../controllers/auth.controller');
+const { verifyToken } = require('../middlewares/auth.middleware');
 const router = express.Router();
 
 // auth 
 router.post('/registration', register);
 router.post('/login', login)
 
-router.get('/note', noteControllers.index);
+router.get('/note', verifyToken ,noteControllers.index);
 router.post('/note', noteControllers.store);
 router.get('/note/:id', noteControllers.show);
 router.put('/note/:id', noteControllers.update);

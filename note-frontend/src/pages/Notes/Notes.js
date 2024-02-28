@@ -14,7 +14,10 @@ const Notes = () => {
 
   useEffect(() => {
     if (!controlRender || controlRender) {
-      fetch(`${BACKEND_URL}/api/v1/note`)
+      fetch(`${BACKEND_URL}/api/v1/note`, {
+        method: "GET",
+        credentials: "include",
+      })
         .then((res) => res.json())
         .then((data) => {
           setNotes(data);

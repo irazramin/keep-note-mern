@@ -48,19 +48,24 @@ module.exports.login = async (req, res, next) => {
 
         if (!user) return res.status(403).json({ message: info.message });
 
-        const token = jwt.sign({ ...user }, "secret", { expiresIn: "7d" });
+        const payload = {
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        }
+        const token = jwt.sign(payload, "secret", { expiresIn: "7d" });
 
         res.cookie("access_token", token, {
-        //   httpOnly: true,
-          secure: true,
           maxAge: 3600000,
         });
 
-        res.cookie("auth_user", JSON.stringify({ ...user }), {
-          httpOnly: true,
-          secure: true,
+        res.cookie("auth_user", JSON.stringify(payload), {
           maxAge: 3600000,
         });
+
+        delete user.password;
 
         return res
           .status(200)

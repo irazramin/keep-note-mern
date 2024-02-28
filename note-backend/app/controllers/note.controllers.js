@@ -7,6 +7,7 @@ module.exports = {
 
     if (!note) return res.status(404).send("not found");
 
+    console.log(req.user)
     return res.status(200).json(note);
   },
 

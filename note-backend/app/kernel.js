@@ -7,15 +7,11 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 module.exports = {
-    boot: (app) => {
-        app.use(cookieParser())
-        cors({
-            origin: ['http://localhost:3000', "http://localhost:3001"],
-            credentials: true
-        }),
+    boot: (app) => {       
+
 
         require('dotenv').config();
-        
+
         app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
         app.use(passport.initialize());
         app.use(passport.session());
