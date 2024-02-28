@@ -58,10 +58,12 @@ module.exports.login = async (req, res, next) => {
         const token = jwt.sign(payload, "secret", { expiresIn: "7d" });
 
         res.cookie("access_token", token, {
+            sameSite: 'none',
           maxAge: 3600000,
         });
 
         res.cookie("auth_user", JSON.stringify(payload), {
+            sameSite: 'none',
           maxAge: 3600000,
         });
 
