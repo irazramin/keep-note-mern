@@ -9,8 +9,6 @@ module.exports.register = async (req, res) => {
     console.log(user);
     if (user) return res.status(400).send("User already registered.");
 
-
-
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
 
@@ -49,21 +47,23 @@ module.exports.login = async (req, res, next) => {
         if (!user) return res.status(403).json({ message: info.message });
 
         const payload = {
-            id: user._id,
-            email: user.email,
-            username: user.username,
-            firstName: user.firstName,
-            lastName: user.lastName,
-        }
+          id: user._id,
+          email: user.email,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        };
         const token = jwt.sign(payload, "secret", { expiresIn: "7d" });
 
         res.cookie("access_token", token, {
-            sameSite: 'none',
+          sameSite: "none",
+          path: "/",
           maxAge: 3600000,
         });
 
         res.cookie("auth_user", JSON.stringify(payload), {
-            sameSite: 'none',
+          sameSite: "none",
+          path: "/",
           maxAge: 3600000,
         });
 
