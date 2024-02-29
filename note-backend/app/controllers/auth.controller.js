@@ -62,9 +62,12 @@ module.exports.login = async (req, res, next) => {
         });
 
         res.cookie("auth_user", JSON.stringify(payload), {
-          sameSite: "none",
-          path: "/",
-          maxAge: 3600000,
+          path: '/',
+        secure: true,
+        httpOnly: true,
+        maxAge: 3600000,
+        domain: '.keep-backend-4k6u.onrender.com',
+        sameSite: 'Strict'
         });
 
         delete user.password;
