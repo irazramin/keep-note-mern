@@ -65,7 +65,7 @@ module.exports.login = async (req, res, next) => {
           cookieConfig = {
             sameSite: "none",
             secure: true,
-            domain: "https://keep-backend-4k6u.onrender.com",
+            domain: ".onrender.com",
             httpOnly: true,
           };
         }
