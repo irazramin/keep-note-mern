@@ -55,14 +55,25 @@ module.exports.login = async (req, res, next) => {
         };
         const token = jwt.sign(payload, "secret", { expiresIn: "7d" });
 
-        res.cookie("access_token", token, {
-          maxAge: 604800000,
-        });
+        let cookieConfig;
+
+        if (process.env.NODE_ENV === "development") {
+          cookieConfig = {
+            maxAge: 604800000,
+          };
+        } else {
+          cookieConfig = {
+            sameSite: "none",
+            secure: true,
+            domain: "https://keep-backend-4k6u.onrender.com",
+            httpOnly: true,
+          };
+        }
+        res.cookie("access_token", token, cookieConfig);
 
         res.cookie("auth_user", JSON.stringify(payload), {
-        maxAge: 604800000,
-        
-    });
+          maxAge: 604800000,
+        });
 
         delete user.password;
 

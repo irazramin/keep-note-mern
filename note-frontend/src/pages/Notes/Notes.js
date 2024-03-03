@@ -6,6 +6,9 @@ import "./note.css";
 import { BACKEND_URL } from "../../utils/urls";
 import axios from "axios";
 import { LuLightbulbOff } from "react-icons/lu";
+import Loading from "../../components/shared/Loading";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -13,7 +16,7 @@ const Notes = () => {
   const [controlRender, setControlRender] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (!controlRender || controlRender) {
       axios
@@ -24,6 +27,10 @@ const Notes = () => {
         .then((response) => {
           console.log(response.data.data);
           setNotes(response.data.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
         });
     }
   }, [controlRender]);
@@ -34,6 +41,8 @@ const Notes = () => {
     700: 3,
     500: 2,
   };
+
+  if (isLoading) return <Loading />;
 
   const pinnedNotes = notes?.filter((note) => note?.isPinned === true);
   const unpinnedNotes = notes?.filter((note) => note?.isPinned === false);
@@ -84,29 +93,31 @@ const Notes = () => {
 
       {unpinnedNotes?.length > 0 ? (
         <>
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            {unpinnedNotes?.map((note) => (
-              <>
-                <Note
-                  note={note}
-                  key={note?._id}
-                  onClick={(id) => setSelectedNoteId(id)}
-                  setNotes={setNotes}
-                  selectedNote={selectedNote}
-                  setSelectedNote={setSelectedNote}
-                  setShowModal={setShowModal}
-                  showModal={showModal}
-                  controlRender={controlRender}
-                  setControlRender={setControlRender}
-                  notes={notes}
-                />
-              </>
-            ))}
-          </Masonry>
+          <DndProvider backend={HTML5Backend}>
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column"
+            >
+              {unpinnedNotes?.map((note) => (
+                <>
+                  <Note
+                    note={note}
+                    key={note?._id}
+                    onClick={(id) => setSelectedNoteId(id)}
+                    setNotes={setNotes}
+                    selectedNote={selectedNote}
+                    setSelectedNote={setSelectedNote}
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    controlRender={controlRender}
+                    setControlRender={setControlRender}
+                    notes={notes}
+                  />
+                </>
+              ))}
+            </Masonry>
+          </DndProvider>
         </>
       ) : (
         <div className="text-center mt-20 w-full h-full flex items-center justify-center ">
