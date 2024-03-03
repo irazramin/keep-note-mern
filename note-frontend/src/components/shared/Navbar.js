@@ -1,26 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isOpen } from "../../features/slices/sideBarSlice";
+import Dropdown from "../common/Dropdown/Dropdown";
+import useAuth from "../../hooks/useAuth";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
   const pathname = useLocation().pathname;
+  const [user, setUser] = useState({});
   const isOpenSidebar = useSelector((state) => state.sideBar.value);
+  const authUser = useAuth();
+  const [render, setRender] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setUser(JSON.parse(authUser));
+  }, [authUser]);
+
   return (
     <div className="bg-white p-3 border-b sticky top-0 left-0 z-50">
       <div className="px-2">
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-10 justify-between">
           <div className="flex items-center gap-10">
             <div className="!w-[45px] h-[45px]  rounded-full hover:bg-stone-200">
               <button
                 onClick={() => {
                   dispatch(isOpen(!isOpenSidebar));
                 }}
-                className="w-full h-full text-stone-800"
-              > 
+                className="w-[45px] h-full text-stone-800"
+              >
                 <FontAwesomeIcon icon={faBars} />
               </button>
             </div>
@@ -32,7 +44,7 @@ const Navbar = () => {
                 <input
                   type="text"
                   placeholder="Search…"
-                  className="input input-bordered bg-white max-w-xl w-full"
+                  className="input input-bordered bg-white max-w-6xl w-full"
                 />
                 <button className="btn btn-square">
                   <svg
@@ -51,6 +63,51 @@ const Navbar = () => {
                   </svg>
                 </button>
               </div>
+            </div>
+          </div>
+
+          <div>
+            <div
+              className="w-[50px] h-[50px] cursor-pointer active:scale-90 transition-all"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              <img src="/images/user.png" className="w-full h-full" />
+            </div>
+            <div>
+              <Dropdown
+                className={`${
+                  showDropdown ? "block " : "hidden"
+                } min-w-[200px] right-5`}
+              >
+                <div>
+                  <div className="flex items-center gap-3 p-3">
+                    <div className="text-center">
+                      <h3 className="text-stone-800 font-semibold">
+                        {user?.firstName} {user?.lastName}
+                      </h3>
+                      <p className="text-stone-500">{user?.email}</p>
+                    </div>
+                  </div>
+                  <ul className="">
+                    <li className="hover:bg-stone-100 rounded-sm text-stone-700 cursor-pointer py-2 px-3 border-b border-b-stone-100">
+                      <a href="#">Profile</a>
+                    </li>
+                    <li className="hover:bg-stone-100 rounded-sm text-stone-700 cursor-pointer py-2 px-3 border-b border-b-stone-100">
+                      <a href="#">Settings</a>
+                    </li>
+                    <li
+                      className="hover:bg-stone-100 rounded-sm text-stone-700 cursor-pointer py-2 px-3"
+                      onClick={() => {
+                        Cookies.remove("auth_user");
+                        Cookies.remove("access_token");
+                        window.location.reload();
+                      }}
+                    >
+                      <a href="#">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </Dropdown>
             </div>
           </div>
         </div>

@@ -5,6 +5,8 @@ import Masonry from "react-masonry-css";
 import "./note.css";
 import { BACKEND_URL } from "../../utils/urls";
 import axios from "axios";
+import { LuLightbulbOff } from "react-icons/lu";
+
 const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNoteId, setSelectedNoteId] = useState("");
@@ -14,13 +16,14 @@ const Notes = () => {
 
   useEffect(() => {
     if (!controlRender || controlRender) {
-      fetch(`${BACKEND_URL}/api/v1/note`, {
-        method: "GET",
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setNotes(data);
+      axios
+        .get(`${BACKEND_URL}/api/v1/notes`, {
+          withCredentials: true,
+          credentials: "include",
+        })
+        .then((response) => {
+          console.log(response.data.data);
+          setNotes(response.data.data);
         });
     }
   }, [controlRender]);
@@ -106,8 +109,13 @@ const Notes = () => {
           </Masonry>
         </>
       ) : (
-        <div className="text-center mt-20">
-          <h2>No notes found!</h2>
+        <div className="text-center mt-20 w-full h-full flex items-center justify-center ">
+          <div className="flex items-center justify-center  flex-col">
+            <LuLightbulbOff className="font-medium text-[100px] text-stone-500" />
+            <h2 className="font-medium text-xl text-stone-500 mt-5">
+              No notes found!
+            </h2>
+          </div>
         </div>
       )}
     </div>

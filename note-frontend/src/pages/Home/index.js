@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import Navbar from "../../components/shared/Navbar";
 
 const Index = () => {
-  const isOpenSidebar = useSelector((state) => state.sideBar.value);  
+  const isOpenSidebar = useSelector((state) => state.sideBar.value);
   return (
     <>
       <Navbar />
@@ -20,7 +20,13 @@ const Index = () => {
           >
             <Sidebar />
           </div>
-          <div className={`flex-1 h-[calc(100vh-73px)] ${!isOpenSidebar ? 'left-[80px] w-[calc(100%-80px)]' : 'left-[280px] w-[calc(100%-280px)]'}  absolute`}>
+          <div
+            className={`flex-1 h-[calc(100vh-73px)] ${
+              !isOpenSidebar
+                ? "left-[80px] w-[calc(100%-80px)]"
+                : "left-[280px] w-[calc(100%-280px)]"
+            }  absolute px-5`}
+          >
             <Outlet />
           </div>
         </div>

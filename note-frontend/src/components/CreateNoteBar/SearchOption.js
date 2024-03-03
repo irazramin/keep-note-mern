@@ -8,6 +8,7 @@ import { LuUserPlus2 } from "react-icons/lu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "../../utils/colors";
+import axios from "axios";
 
 const SearchOption = ({ setControlRender, controlRender }) => {
   const [collapseCard, setCollapseCard] = useState(false);
@@ -28,21 +29,23 @@ const SearchOption = ({ setControlRender, controlRender }) => {
   };
 
   const submitNote = () => {
-    if (!title && !desc) return;
+    if (!title && !desc) {
+      setCollapseCard(false);
+      return;
+    }
+
     if (title || desc) {
-      fetch(`${BACKEND_URL}/api/v1/note`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          title: title,
-          description: desc,
-          backgroundColor: selectedColor,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
+      const data = {
+        title: title,
+        description: desc,
+        backgroundColor: selectedColor,
+      };
+      axios
+        .post(`${BACKEND_URL}/api/v1/note`, data, {
+          withCredentials: true,
+          credentials: "include",
+        })
+        .then((response) => {
           setControlRender(!controlRender);
         });
     }

@@ -1,22 +1,32 @@
-const express = require('express');
+const express = require("express");
 const noteControllers = require("../controllers/note.controllers");
-const { register, login } = require('../controllers/auth.controller');
-const { verifyToken } = require('../middlewares/auth.middleware');
+const { register, login } = require("../controllers/auth.controller");
+const { verifyToken } = require("../middlewares/auth.middleware");
+const {
+  getAllTrashNotes,
+  restoredNote,
+  deleteForever,
+} = require("../controllers/trash.controller");
 const router = express.Router();
 
-// auth 
-router.post('/registration', register);
-router.post('/login', login)
+// auth
+router.post("/registration", register);
+router.post("/login", login);
 
-router.get('/note', verifyToken ,noteControllers.index);
-router.post('/note', noteControllers.store);
-router.get('/note/:id', noteControllers.show);
-router.put('/note/:id', noteControllers.update);
-router.delete('/note/:id', noteControllers.delete);
+// note
+router.get("/notes", verifyToken, noteControllers.index);
+router.post("/note", verifyToken, noteControllers.store);
+router.get("/note/:id", verifyToken, noteControllers.show);
+router.put("/note/:id", verifyToken, noteControllers.update);
+router.delete("/note/:id", verifyToken, noteControllers.delete);
 
-router.put('/pin-note/:id', noteControllers.pinNote);
-router.get('/pinned-note', noteControllers.getPinnedNotes);
+// pin note
+router.put("/pin-note/:id", verifyToken, noteControllers.pinNote);
+router.get("/pinned-note", verifyToken, noteControllers.getPinnedNotes);
 
-
+// trash
+router.get("/trash-note", verifyToken, getAllTrashNotes);
+router.post("/trash/restore-note/:trashId", verifyToken, restoredNote);
+router.delete("/trash/delete-forever/:trashId", verifyToken, deleteForever);
 
 module.exports = router;

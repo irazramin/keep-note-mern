@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const collaboratorsSchema = new mongoose.Schema(
   {
     userId: {
@@ -21,7 +20,7 @@ const noteSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-        required: false,
+      required: false,
     },
     backgroundColor: {
       type: String,
@@ -35,6 +34,16 @@ const noteSchema = new mongoose.Schema(
       type: [collaboratorsSchema],
     },
     isPinned: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    isDeleted: {
       type: Boolean,
       required: false,
       default: false,

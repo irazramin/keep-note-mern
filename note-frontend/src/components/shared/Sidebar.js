@@ -33,7 +33,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`duration-200 bg-white top-[72px] ${
+      className={`duration-200 bg-white top-[75px] ${
         isOpenSidebar
           ? "sidebar-open"
           : "fixed w-[80px]  h-screen transition-all duration-300 overflow-hidden"
@@ -44,11 +44,13 @@ const Sidebar = () => {
           <li
             key={item.id}
             className={`text-stone-800 px-[30px] rounded-tr-3xl rounded-br-3xl ${
-              item.link === "/"+pathname.split("/")[2] ? "bg-primary-light hover:bg-primary-light bg-opacity-50" : "hover:bg-slate-100"
+              item.link === "/" + pathname.split("/")[2]
+                ? "bg-primary-light hover:bg-primary-light bg-opacity-50"
+                : "hover:bg-slate-100"
             }`}
           >
             <div className="">
-              <Link to={'/dashboard'+item.link}>
+              <Link to={"/dashboard" + item.link}>
                 <div className="flex items-center py-4">
                   <span className="mr-5 text-stone-800">
                     <item.Icon className="text-xl w-5" />

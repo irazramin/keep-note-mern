@@ -8,6 +8,8 @@ import { LuUserPlus2 } from "react-icons/lu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BACKEND_URL } from "../../../../utils/urls";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { timeAgo } from "../../../../utils/timeAgo";
+import axios from "axios";
 
 const EditNote = ({
   note,
@@ -22,6 +24,7 @@ const EditNote = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  console.log(selectedNote);
   const updateNote = () => {
     const updateNote = {
       title: title,
@@ -29,27 +32,20 @@ const EditNote = ({
       backgroundColor: selectedColor,
     };
 
-    fetch(`${BACKEND_URL}/api/v1/note/${selectedNote?._id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(updateNote),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        //   onSubmit(true);
-        setNotes((prev) => {
-            return prev.map((item) => {
-                if (item._id === selectedNote?._id) {
-                    return { ...item, ...updateNote };
-                }
-                return item;
-            });
-          });
+    axios.put(`${BACKEND_URL}/api/v1/note/${selectedNote?._id}`, updateNote, 
+      { withCredentials: true, credentials: "include" }
+    ).then((res) => {
+      setNotes((prev) => {
+        return prev.map((item) => {
+          if (item._id === selectedNote?._id) {
+            return { ...item, ...updateNote };
+          }
+          return item;
+        });
       });
+    });
     setSelectedNote(null);
-    setShowModal(!showModal);
+    setShowModal(false);
   };
 
   const handleDropdown = (e, type) => {
@@ -89,6 +85,7 @@ const EditNote = ({
           value={description}
         />
 
+        <p className="text-end mt-2 text-stone-800 font-medium text-xs">Edited: {timeAgo(selectedNote?.updatedAt)}</p>
         <div className="card-actions justify-between mt-2">
           <div className="flex justify-around flex-wrap gap-5">
             <div

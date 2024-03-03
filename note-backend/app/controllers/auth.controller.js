@@ -56,19 +56,13 @@ module.exports.login = async (req, res, next) => {
         const token = jwt.sign(payload, "secret", { expiresIn: "7d" });
 
         res.cookie("access_token", token, {
-          sameSite: "none",
-          path: "/",
-          maxAge: 3600000,
+          maxAge: 604800000,
         });
 
         res.cookie("auth_user", JSON.stringify(payload), {
-          path: '/',
-        secure: true,
-        httpOnly: true,
-        maxAge: 3600000,
-        domain: '.keep-backend-4k6u.onrender.com',
-        sameSite: 'Strict'
-        });
+        maxAge: 604800000,
+        
+    });
 
         delete user.password;
 
