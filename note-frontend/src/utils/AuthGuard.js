@@ -5,12 +5,12 @@ import { Route, Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Cookies from "js-cookie";
 
-const AuthGuard = ({Component}) => {
+const AuthGuard = ({ Component }) => {
   const isAuthenticated = useAuth();
 
-  console.log(isAuthenticated)
+  console.log(isAuthenticated);
 
-  return Cookies.get('access_token') ? Component : <Navigate to="/login" />;
+  return Cookies.get("auth_user") ? Component : <Navigate to="/login" />;
 };
 
 export default AuthGuard;
