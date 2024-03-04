@@ -5,6 +5,7 @@ import { PiLockKey } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [fieldErrors, setFieldErrors] = useState([]);
@@ -30,11 +31,12 @@ const Login = () => {
       if (!hasError) {
         const response = await axios.post(`${BACKEND_URL}/api/v1/login`, data, {
           withCredentials: true,
-          credentials: 'include'
+          credentials: "include",
         });
 
-        if (response.data) { 
-          navigate('/dashboard/notes');
+        Cookies.set("auth_user", JSON.stringify(response.data));
+        if (response.data) {
+          navigate("/dashboard/notes");
         }
       }
     } catch (error) {
@@ -86,7 +88,9 @@ const Login = () => {
                 placeholder="Enter your email"
                 onChange={(e) => handleInputField(e, "email")}
                 className={`w-full border rounded-md pr-5 pl-10 py-[12px] bg-gray-100 mt-1 text-sm border-transparent focus:border-primary focus:outline-none py-2 ${
-                  getErrorMessage("email") ? "border-red-500 focus:border-red-500" : ""
+                  getErrorMessage("email")
+                    ? "border-red-500 focus:border-red-500"
+                    : ""
                 }`}
               />
               <MdOutlineMailOutline className="absolute top-[40%] -translate-x-1/2 left-[22px]" />
@@ -103,7 +107,9 @@ const Login = () => {
                 placeholder="Enter your password"
                 onChange={(e) => handleInputField(e, "password")}
                 className={`w-full border rounded-md pr-5 pl-10 py-[12px] bg-gray-100 mt-1 text-sm border-transparent focus:border-primary focus:outline-none py-2 ${
-                  getErrorMessage("password") ? "border-red-500 focus:border-red-500" : ""
+                  getErrorMessage("password")
+                    ? "border-red-500 focus:border-red-500"
+                    : ""
                 }`}
               />
               <PiLockKey className="absolute top-[40%] -translate-x-1/2 left-[22px]" />

@@ -10,6 +10,7 @@ import Login from "./pages/login";
 import Registration from "./pages/registration";
 import AuthGuard from "./utils/AuthGuard";
 import Cookie from "js-cookie";
+import RedirectLogin from "./utils/RedirectLogin";
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authUser, setAuthUser] = useState({});
@@ -17,16 +18,20 @@ function App() {
   return (
     <div className="w-full h-screen bg-white">
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<RedirectLogin />} />
+
+        <Route path="/login" element={<Login /> } />
         <Route path="/registration" element={<Registration />} />
-          <Route
-            path="/dashboard"
-            element={<AuthGuard Component={<Index sidebarOpen={sidebarOpen} />} />}
-          >
-            <Route path="notes" element={<Notes />} index />
-            <Route path="archrive" element={<Archrive />} />
-            <Route path="trash" element={<Trash />} />
-          </Route>
+        <Route
+          path="/dashboard"
+          element={
+            <AuthGuard Component={<Index sidebarOpen={sidebarOpen} />} />
+          }
+        >
+          <Route path="notes" element={<Notes />} index />
+          <Route path="archrive" element={<Archrive />} />
+          <Route path="trash" element={<Trash />} />
+        </Route>
       </Routes>
     </div>
   );
