@@ -10,6 +10,7 @@ import { BACKEND_URL } from "../../../../utils/urls";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { timeAgo } from "../../../../utils/timeAgo";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const EditNote = ({
   note,
@@ -33,7 +34,9 @@ const EditNote = ({
     };
 
     axios.put(`${BACKEND_URL}/api/v1/note/${selectedNote?._id}`, updateNote, 
-      { withCredentials: true, credentials: "include" }
+      { withCredentials: true, credentials: "include", headers: {
+          Authorization: `Bearer ${Cookies.get("access_token")}`,
+        } }
     ).then((res) => {
       setNotes((prev) => {
         return prev.map((item) => {

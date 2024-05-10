@@ -19,6 +19,7 @@ import { BACKEND_URL } from "../../utils/urls";
 import Modal from "../common/Modal/Modal";
 import EditNote from "../common/Modal/ModalContents/EditNote";
 import { LiaTrashRestoreAltSolid } from "react-icons/lia";
+import Cookies from "js-cookie";
 const Note = ({
   note = null,
   onClick,
@@ -50,7 +51,9 @@ const Note = ({
         {
           backgroundColor: color.color,
         },
-        { withCredentials: true, credentials: "include" }
+        { withCredentials: true, credentials: "include", headers: {
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          }, }
       )
       .then((res) => {
         setNotes((prev) => {
@@ -128,7 +131,9 @@ const Note = ({
         {
           isPinned: !note.isPinned,
         },
-        { withCredentials: true, credentials: "include" }
+        { withCredentials: true, credentials: "include", headers: {
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          }, }
       )
       .then((res) => {
         setNotes((prev) => {
@@ -151,6 +156,9 @@ const Note = ({
       const res = await axios.delete(`${BACKEND_URL}/api/v1/note/${id}`, {
         withCredentials: true,
         credentials: "include",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("access_token")}`,
+        },
       });
 
       setNotes((prev) => {

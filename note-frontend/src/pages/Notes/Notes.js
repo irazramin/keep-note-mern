@@ -9,6 +9,7 @@ import { LuLightbulbOff } from "react-icons/lu";
 import Loading from "../../components/shared/Loading";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Cookie from "js-cookie";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -23,6 +24,9 @@ const Notes = () => {
         .get(`${BACKEND_URL}/api/v1/notes`, {
           withCredentials: true,
           credentials: "include",
+          headers: {
+            Authorization: `Bearer ${Cookie.get('access_token')}`
+          }
         })
         .then((response) => {
           console.log(response.data.data);

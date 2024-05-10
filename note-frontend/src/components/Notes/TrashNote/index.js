@@ -4,6 +4,7 @@ import { PiTrashBold } from "react-icons/pi";
 import "../../../pages/Notes/note.css";
 import { LiaTrashRestoreAltSolid } from "react-icons/lia";
 import { BACKEND_URL } from "../../../utils/urls";
+import Cookies from "js-cookie";
 
 const TrashNote = ({ note = null, setNotes = null, trashData = {} }) => {
   const noteRef = useRef(null);
@@ -17,6 +18,9 @@ const TrashNote = ({ note = null, setNotes = null, trashData = {} }) => {
         {
           withCredentials: true,
           credential: "include",
+          headers: {
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          },
         }
       );
 
@@ -37,6 +41,9 @@ const TrashNote = ({ note = null, setNotes = null, trashData = {} }) => {
         {
           withCredentials: true,
           credential: "include",
+          headers: {
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          },
         }
       );
       setNotes((prev) => {

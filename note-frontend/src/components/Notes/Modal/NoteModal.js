@@ -8,6 +8,7 @@ import { colors } from "../../../utils/colors";
 import Dropdown from "../../common/Dropdown/Dropdown";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { PiArchiveBoxBold } from "react-icons/pi";
+import Cookies from "js-cookie";
 
 const NoteModal = ({
   selectedNoteId,
@@ -21,7 +22,12 @@ const NoteModal = ({
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`)
+    fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${Cookies.get("access_token")}`,
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setTitle(data[0]?.title ?? "");
@@ -41,6 +47,7 @@ const NoteModal = ({
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("access_token")}`,
       },
       body: JSON.stringify(updateNote),
     })

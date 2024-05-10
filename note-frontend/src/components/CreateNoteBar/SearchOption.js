@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "../../utils/colors";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const SearchOption = ({ setControlRender, controlRender }) => {
   const [collapseCard, setCollapseCard] = useState(false);
@@ -44,6 +45,9 @@ const SearchOption = ({ setControlRender, controlRender }) => {
         .post(`${BACKEND_URL}/api/v1/note`, data, {
           withCredentials: true,
           credentials: "include",
+          headers: {
+            Authorization: `Bearer ${Cookies.get("access_token")}`,
+          },
         })
         .then((response) => {
           setControlRender(!controlRender);
