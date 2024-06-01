@@ -20,12 +20,13 @@ const Notes = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (!controlRender || controlRender) {
+      console.log(`Bearer ${Cookie.get('access_token')}`)
       axios
         .get(`${BACKEND_URL}/api/v1/notes`, {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Authorization: `Bearer ${Cookie.get('access_token')}`
+            Authorization: `Bearer ${Cookie.get('access_token') || ""}`
           }
         })
         .then((response) => {
