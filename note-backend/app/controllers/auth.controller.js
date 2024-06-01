@@ -69,7 +69,9 @@ module.exports.login = async (req, res, next) => {
             httpOnly: true,
           };
         }
-        res.cookie("access_token", token, cookieConfig);
+        res.cookie("access_token", token, {
+          maxAge: 604800000,
+        });
 
         res.cookie("auth_user", JSON.stringify(payload), {
           maxAge: 604800000,
