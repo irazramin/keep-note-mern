@@ -5,6 +5,7 @@ module.exports.verifyToken = (req, res, next) => {
     const headers = req.headers.authorization;
 
     console.log(headers)
+    
     const token = headers && headers.split(" ")[1]
     console.log("access_token", token);
 
