@@ -73,9 +73,9 @@ module.exports.login = async (req, res, next) => {
         //   maxAge: 604800000,
         // });
 
-        res.cookie("auth_user", JSON.stringify(payload), {
-          maxAge: 10 * 24 * 60 * 60 * 1000,
-        });
+        // res.cookie("auth_user", JSON.stringify(payload), {
+        //   maxAge: 10 * 24 * 60 * 60 * 1000,
+        // });
 
         res.cookie("token", "token", {
           maxAge: 10 * 24 * 60 * 60 * 1000,
