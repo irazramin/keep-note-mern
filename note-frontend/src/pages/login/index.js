@@ -34,9 +34,10 @@ const Login = () => {
           credentials: "include",
         });
 
-        Cookies.set("auth_user", JSON.stringify(response.data));
         if (response.data) {
           navigate("/dashboard/notes");
+          Cookies.set("auth_user", JSON.stringify(Cookies.get("auth_user")));
+          Cookies.set("access_token", Cookies.get("access_token"));
         }
       }
     } catch (error) {

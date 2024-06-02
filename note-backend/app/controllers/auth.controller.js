@@ -75,12 +75,10 @@ module.exports.login = async (req, res, next) => {
 
         res.cookie("auth_user", JSON.stringify(payload), {
           maxAge: 10 * 24 * 60 * 60 * 1000,
-          httpOnly: false,
         });
 
-        res.cookie("token", "token", {
+        res.cookie("access_token", token, {
           maxAge: 10 * 24 * 60 * 60 * 1000,
-          httpOnly: false,
         });
 
         delete user.password;
