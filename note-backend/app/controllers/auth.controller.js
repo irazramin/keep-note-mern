@@ -57,24 +57,28 @@ module.exports.login = async (req, res, next) => {
 
         let cookieConfig;
 
-        if (process.env.NODE_ENV === "development") {
-          cookieConfig = {
-            maxAge: 604800000,
-          };
-        } else {
-          cookieConfig = {
-            sameSite: "none",
-            secure: true,
-            domain: ".onrender.com",
-            httpOnly: true,
-          };
-        }
-        res.cookie("access_token", token, {
-          maxAge: 604800000,
-        });
+        // if (process.env.NODE_ENV === "development") {
+        //   cookieConfig = {
+        //     maxAge: 604800000,
+        //   };
+        // } else {
+        //   cookieConfig = {
+        //     sameSite: "none",
+        //     secure: true,
+        //     domain: ".onrender.com",
+        //     httpOnly: true,
+        //   };
+        // }
+        // res.cookie("access_token", token, {
+        //   maxAge: 604800000,
+        // });
 
         res.cookie("auth_user", JSON.stringify(payload), {
-          maxAge: 604800000,
+          maxAge: 10 * 24 * 60 * 60 * 1000,
+        });
+
+        res.cookie("access_token", token, {
+          maxAge: 10 * 24 * 60 * 60 * 1000,
         });
 
         delete user.password;
