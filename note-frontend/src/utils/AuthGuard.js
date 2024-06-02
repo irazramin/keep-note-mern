@@ -10,7 +10,7 @@ const AuthGuard = ({ Component }) => {
 
   console.log(isAuthenticated);
 
-  return Cookies.get("auth_user") ? Component : <Navigate to="/login" />;
+  return Cookies.get("token") ? Component : <Navigate to="/login" />;
 };
 
 export default AuthGuard;
