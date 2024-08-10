@@ -14,11 +14,12 @@ const Navbar = () => {
   const [user, setUser] = useState({});
   const isOpenSidebar = useSelector((state) => state.sideBar.value);
   const authUser = useAuth();
-  const [render, setRender] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setUser(JSON.parse(authUser));
+    if (authUser) {
+      setUser(JSON.parse(authUser));
+    }
   }, [authUser]);
 
   return (
@@ -40,16 +41,16 @@ const Navbar = () => {
               {pathname.split("/")[2]}
             </div>
             <div className="form-control w-full">
-              <div className="input-group">
+              <div className="flex items-center">
                 <input
                   type="text"
                   placeholder="Search…"
-                  className="input input-bordered bg-white max-w-6xl w-full"
+                  className="ring-1 ring-slate-200 focus:ring-primary outline-none bg-white p-4 w-[300px] h-full text-black"
                 />
-                <button className="btn btn-square">
+                <button className="bg-primary p-4 active:scale-95 transition-all">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="h-6 w-6 text-white"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -98,8 +99,9 @@ const Navbar = () => {
                     <li
                       className="hover:bg-stone-100 rounded-sm text-stone-700 cursor-pointer py-2 px-3"
                       onClick={() => {
-                        Cookies.remove("auth_user");
-                        Cookies.remove("access_token");
+                        localStorage.removeItem("auth_user");
+                        localStorage.removeItem("access_token");
+
                         window.location.reload();
                       }}
                     >

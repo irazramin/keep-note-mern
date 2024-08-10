@@ -25,8 +25,10 @@ const NoteModal = ({
     fetch(`${BACKEND_URL}/api/v1/note/${selectedNoteId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${Cookies.get("access_token")}`,
-      }
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("access_token")
+        )}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -35,7 +37,7 @@ const NoteModal = ({
         setSelectedColor(data[0]?.backgroundColor ?? "");
       });
   }, [selectedNoteId]);
-  
+
   const updateNote = () => {
     const updateNote = {
       title: title,
@@ -47,7 +49,9 @@ const NoteModal = ({
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${Cookies.get("access_token")}`,
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("access_token")
+        )}`,
       },
       body: JSON.stringify(updateNote),
     })
@@ -56,7 +60,7 @@ const NoteModal = ({
         onSubmit(true);
       });
 
-      setSelectedNote(null);
+    setSelectedNote(null);
   };
 
   const handleDropdown = (e, type) => {
@@ -74,7 +78,10 @@ const NoteModal = ({
     <>
       <input type="checkbox" id="my-modal" className="modal-toggle" />
       <div className="modal">
-        <div style={{backgroundColor: `${selectedColor}`}} className="bg-white shadow-md w-[40%] mx-auto rounded-md">
+        <div
+          style={{ backgroundColor: `${selectedColor}` }}
+          className="bg-white shadow-md w-[40%] mx-auto rounded-md"
+        >
           <div className="p-4">
             <input
               type="text"
@@ -151,7 +158,10 @@ const NoteModal = ({
                 </div>
               </div>
               <button className="modal-action mt-0" onClick={updateNote}>
-                <label htmlFor="my-modal" className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm">
+                <label
+                  htmlFor="my-modal"
+                  className="px-4 py-2 text-stone-800 hover:bg-slate-100 rounded-md uppercase font-semibold text-sm"
+                >
                   Done
                 </label>
               </button>

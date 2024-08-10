@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import axios from "axios";
 import { PiLockKey } from "react-icons/pi";
@@ -36,8 +36,16 @@ const Login = () => {
 
         if (response.data) {
           navigate("/dashboard/notes");
-          Cookies.set("auth_user", JSON.stringify(Cookies.get("auth_user")));
-          Cookies.set("access_token", Cookies.get("access_token"));
+          // Cookies.set("auth_user", JSON.stringify(Cookies.get("auth_user")));
+          // Cookies.set("access_token", Cookies.get("access_token"));
+          localStorage.setItem(
+            "access_token",
+            JSON.stringify(Cookies.get("access_token"))
+          );
+          localStorage.setItem(
+            "auth_user",
+            JSON.stringify(Cookies.get("auth_user"))
+          );
         }
       }
     } catch (error) {

@@ -11,6 +11,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { timeAgo } from "../../../../utils/timeAgo";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { userHeader } from "../../../../utils/headers";
 
 const EditNote = ({
   note,
@@ -18,14 +19,13 @@ const EditNote = ({
   showModal,
   setSelectedNote,
   selectedNote,
-  setNotes
+  setNotes,
 }) => {
   const [showDropdown, setShowDropdown] = useState({});
   const [selectedColor, setSelectedColor] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  console.log(selectedNote);
   const updateNote = () => {
     const updateNote = {
       title: title,
@@ -33,20 +33,25 @@ const EditNote = ({
       backgroundColor: selectedColor,
     };
 
-    axios.put(`${BACKEND_URL}/api/v1/note/${selectedNote?._id}`, updateNote, 
-      { withCredentials: true, credentials: "include", headers: {
-          Authorization: `Bearer ${Cookies.get("access_token")}`,
-        } }
-    ).then((res) => {
-      setNotes((prev) => {
-        return prev.map((item) => {
-          if (item._id === selectedNote?._id) {
-            return { ...item, ...updateNote };
-          }
-          return item;
+    axios
+      .put(`${BACKEND_URL}/api/v1/note/${selectedNote?._id}`, updateNote, {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Authorization: userHeader(),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setNotes((prev) => {
+          return prev.map((item) => {
+            if (item._id === selectedNote?._id) {
+              return { ...item, ...updateNote };
+            }
+            return item;
+          });
         });
       });
-    });
     setSelectedNote(null);
     setShowModal(false);
   };
@@ -67,6 +72,7 @@ const EditNote = ({
     setDescription(selectedNote?.description);
     setSelectedColor(selectedNote?.backgroundColor);
   }, [selectedNote]);
+
   return (
     <div
       style={{ backgroundColor: `${selectedColor}` }}
@@ -88,7 +94,9 @@ const EditNote = ({
           value={description}
         />
 
-        <p className="text-end mt-2 text-stone-800 font-medium text-xs">Edited: {timeAgo(selectedNote?.updatedAt)}</p>
+        <p className="text-end mt-2 text-stone-800 font-medium text-xs">
+          Edited: {timeAgo(selectedNote?.updatedAt)}
+        </p>
         <div className="card-actions justify-between mt-2">
           <div className="flex justify-around flex-wrap gap-5">
             <div

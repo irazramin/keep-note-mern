@@ -46,7 +46,9 @@ const SearchOption = ({ setControlRender, controlRender }) => {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Authorization: `Bearer ${Cookies.get("access_token")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("access_token")
+            )}`,
           },
         })
         .then((response) => {

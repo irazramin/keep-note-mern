@@ -5,7 +5,12 @@ const cookieParser = require("cookie-parser");
 module.exports = {
   middleware: (app) => {
     const corsOptions = {
-      origin: ["http://localhost:3000", "http://localhost:3001", "https://keep-notes-mern.vercel.app"],
+      origin: [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://192.168.0.121:3000",
+        "https://keep-notes-mern.vercel.app",
+      ],
       credentials: true,
       optionSuccessStatus: 200,
     };

@@ -10,6 +10,7 @@ import Loading from "../../components/shared/Loading";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Cookie from "js-cookie";
+import EmptyNote from "../../components/common/EmptyNote";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -20,14 +21,16 @@ const Notes = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (!controlRender || controlRender) {
-      console.log(`Bearer ${Cookie.get('access_token')}`)
+      console.log(`Bearer ${JSON.parse(localStorage.getItem("access_token"))}`);
       axios
         .get(`${BACKEND_URL}/api/v1/notes`, {
           withCredentials: true,
           credentials: "include",
           headers: {
-            Authorization: `Bearer ${Cookie.get('access_token') || ""}`
-          }
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("access_token")) || ""
+            }`,
+          },
         })
         .then((response) => {
           console.log(response.data.data);
@@ -45,6 +48,7 @@ const Notes = () => {
     1100: 5,
     700: 3,
     500: 2,
+    400: 2,
   };
 
   if (isLoading) return <Loading />;
@@ -125,14 +129,7 @@ const Notes = () => {
           </DndProvider>
         </>
       ) : (
-        <div className="text-center mt-20 w-full h-full flex items-center justify-center ">
-          <div className="flex items-center justify-center  flex-col">
-            <LuLightbulbOff className="font-medium text-[100px] text-stone-500" />
-            <h2 className="font-medium text-xl text-stone-500 mt-5">
-              No notes found!
-            </h2>
-          </div>
-        </div>
+        <EmptyNote message="Notes not found!" Icon={LuLightbulbOff} />
       )}
     </div>
   );

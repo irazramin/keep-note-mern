@@ -4,13 +4,14 @@ import Index from "./pages/Home";
 import { Route, Routes } from "react-router";
 import Notes from "./pages/Notes/Notes";
 import Trash from "./pages/Trash/Trash";
-import Archrive from "./pages/Archrive/Archrive";
+import Archrive from "./pages/Archive/Archive";
 import { useEffect, useState } from "react";
 import Login from "./pages/login";
 import Registration from "./pages/registration";
 import AuthGuard from "./utils/AuthGuard";
 import Cookie from "js-cookie";
 import RedirectLogin from "./utils/RedirectLogin";
+import RedirectDashboard from "./utils/RedirectDashboard";
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [authUser, setAuthUser] = useState({});
@@ -18,9 +19,11 @@ function App() {
   return (
     <div className="w-full h-screen bg-white">
       <Routes>
-        <Route path="/" element={<RedirectLogin />} />
+        <Route path="/" element={<RedirectDashboard >
+          
+        </RedirectDashboard>} />
 
-        <Route path="/login" element={<Login /> } />
+        <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route
           path="/dashboard"

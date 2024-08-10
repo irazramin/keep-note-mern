@@ -2,6 +2,8 @@ import React from "react";
 import { GetTrashNote } from "../../hooks/TrashHooks";
 import Masonry from "react-masonry-css";
 import TrashNote from "../../components/Notes/TrashNote";
+import EmptyNote from "../../components/common/EmptyNote";
+import { LuLightbulbOff } from "react-icons/lu";
 
 const Trash = () => {
   const { setTrashes, trashes } = GetTrashNote();
@@ -38,9 +40,7 @@ const Trash = () => {
           }
         </div>
       ) : (
-        <div className="flex items-center justify-center">
-          <p>No data found!</p>
-        </div>
+        <EmptyNote message="Trash not found!" Icon={LuLightbulbOff} />
       )}
     </div>
   );

@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../utils/urls";
 import { userHeader } from "../utils/headers";
-export const GetTrashNote = () => {
-  const [trashes, setTrashes] = useState([]);
+
+export const GetArchiveNotes = () => {
+  const [archiveNotes, setArchiveNotes] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${BACKEND_URL}/api/v1/trash-note`, {
+      .get(`${BACKEND_URL}/api/v1/archive-note`, {
         withCredentials: true,
         credentials: "include",
         headers: {
@@ -15,12 +16,12 @@ export const GetTrashNote = () => {
         },
       })
       .then((res) => {
-        setTrashes(res.data.data);
+        setArchiveNotes(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  return { trashes, setTrashes };
+  return { archiveNotes, setArchiveNotes };
 };

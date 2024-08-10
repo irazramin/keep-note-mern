@@ -30,6 +30,7 @@ module.exports.restoredNote = async (req, res) => {
   try {
     const userId = req.user.id;
     const trashId = req.params.trashId;
+    
     const user = await User.findById(userId);
     const trash = await Trash.findById(trashId);
 

@@ -1,9 +1,10 @@
 const { Note, User, Trash } = require("../models");
+const Archive = require("../models/archive.model");
 
 module.exports = {
   index: async (req, res) => {
     try {
-      const query = { userId: req.user.id, isDeleted: false };
+      const query = { userId: req.user.id, isDeleted: false, isArchive: false };
       const note = await Note.find(query);
 
       if (!note) return res.status(404).send("not found");
@@ -117,6 +118,39 @@ module.exports = {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: error });
+    }
+  },
+
+  archiveNote: async (req, res) => {
+    try {
+      const { noteId } = req.params;
+      const userId = req.user.id;
+
+      const note = await Note.findById(noteId);
+      const user = await User.findById(userId);
+
+      if (!note) return res.status(404).json({ message: "Note not found!" });
+
+      if (!user) return res.status(404).json({ message: "User not found!" });
+
+      const archive = await Archive({
+        noteId: note?._id,
+        userId,
+      }).save();
+
+      const response = await Note.findByIdAndUpdate(
+        noteId,
+        { isArchive: true },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        message: "Note archive successfully",
+        data: { response, archive },
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal server error" });
     }
   },
 };

@@ -51,9 +51,15 @@ const Note = ({
         {
           backgroundColor: color.color,
         },
-        { withCredentials: true, credentials: "include", headers: {
-            Authorization: `Bearer ${Cookies.get("access_token")}`,
-          }, }
+        {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("access_token")
+            )}`,
+          },
+        }
       )
       .then((res) => {
         setNotes((prev) => {
@@ -113,14 +119,17 @@ const Note = ({
     setSelectedNote(item);
     setShowModal(true);
     console.log(item);
-    // setOffset({
-    //   x: noteRef.current.getBoundingClientRect().top,
-    //   y: noteRef.current.getBoundingClientRect().left,
-    // });
-    // localStorage.setItem("notePosition", JSON.stringify({
-    //   x: noteRef.current.getBoundingClientRect().top,
-    //   y: noteRef.current.getBoundingClientRect().left,
-    // }));
+    setOffset({
+      x: noteRef.current.getBoundingClientRect().top,
+      y: noteRef.current.getBoundingClientRect().left,
+    });
+    localStorage.setItem(
+      "notePosition",
+      JSON.stringify({
+        x: noteRef.current.getBoundingClientRect().top,
+        y: noteRef.current.getBoundingClientRect().left,
+      })
+    );
   };
 
   const handleNotePinned = (e, id) => {
@@ -131,9 +140,15 @@ const Note = ({
         {
           isPinned: !note.isPinned,
         },
-        { withCredentials: true, credentials: "include", headers: {
-            Authorization: `Bearer ${Cookies.get("access_token")}`,
-          }, }
+        {
+          withCredentials: true,
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("access_token")
+            )}`,
+          },
+        }
       )
       .then((res) => {
         setNotes((prev) => {
@@ -157,10 +172,44 @@ const Note = ({
         withCredentials: true,
         credentials: "include",
         headers: {
-          Authorization: `Bearer ${Cookies.get("access_token")}`,
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("access_token")
+          )}`,
         },
       });
 
+      setNotes((prev) => {
+        return prev.filter((note) => note?._id !== id);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleArchiveNote = async (e, id) => {
+    e.stopPropagation();
+    // console.log(`Bearer ${JSON.parse(localStorage.getItem("access_token"))}`);
+    try {
+      // const res = await axios.put(`${BACKEND_URL}/api/v1/archive/${id}`, {
+      //   withCredentials: true,
+      //   credentials: "include",
+      //   headers: {
+      //     Authorization: `Bearer ${JSON.parse(
+      //       localStorage.getItem("access_token")
+      //     )}`,
+      //   },
+      // });
+
+      await fetch(`${BACKEND_URL}/api/v1/archive/${id}`, {
+        method: "PUT",
+        credentials: "include",
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("access_token")
+          )}`,
+        },
+      });
       setNotes((prev) => {
         return prev.filter((note) => note?._id !== id);
       });
@@ -196,6 +245,7 @@ const Note = ({
             {!trash ? (
               <>
                 <div
+                  onClick={(e) => handleArchiveNote(e, note?._id)}
                   data-tip="archrive"
                   className="w-[35px] h-[35px] relative tooltip rounded-full hover:bg-gray-200 flex justify-center items-center text-stone-800"
                 >

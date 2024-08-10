@@ -48,6 +48,11 @@ const noteSchema = new mongoose.Schema(
       required: false,
       default: false,
     },
+    isArchive: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true,
